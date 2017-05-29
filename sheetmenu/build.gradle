@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.whalemare'
 
 android {
     compileSdkVersion 25
@@ -31,6 +34,7 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.github.jitpack:gradle-simple:master-SNAPSHOT'
 }
 repositories {
     mavenCentral()
