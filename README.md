@@ -1,5 +1,6 @@
 # sheetmenu
 Library for speedy implementation menu with BottomSheet
+
 [![Release](https://jitpack.io/v/whalemare/sheetmenu.svg)](https://jitpack.io/#whalemare/sheetmenu)
 
 ![Screenshot](screen-1.png)
