@@ -49,4 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 }
         ).show(this);
     }
+
+    private void setup3(){
+        SheetMenu sheetMenu = new SheetMenu();
+        sheetMenu.setMenu(R.menu.menu);
+        sheetMenu.setTitle("Title");
+        sheetMenu.setClick(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        });
+    }
 }
