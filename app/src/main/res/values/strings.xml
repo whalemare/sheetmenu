@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BottomSheet</string>
+    <string name="title">Title</string>
+    <string name="text_show_menu">Show menu</string>
+</resources>
