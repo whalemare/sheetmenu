@@ -20,7 +20,7 @@ open class MainActivityKotlin : AppCompatActivity() {
     fun setup() {
         SheetMenu().apply {
             titleId = R.string.title
-            layoutManager = GridLayoutManager(this@MainActivityKotlin, 3)
+            layoutManager = GridLayoutManager(this@MainActivityKotlin, 2)
             click = MenuItem.OnMenuItemClickListener { true }
             menu = R.menu.menu
         }.show(this)

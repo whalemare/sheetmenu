@@ -55,14 +55,11 @@ open class SheetMenu(
 
     open protected fun processRecycler(recycler: RecyclerView) {
         if (menu > 0) {
-            recycler.apply {
-                adapter = ListAdapter.with(context.inflate(menu)).apply {
-                    callback = click
-                }
-                if (layoutManager == null) {
-                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
+            recycler.adapter = ListAdapter.with(recycler.context.inflate(menu)).apply {
+                callback = click
             }
+            recycler.layoutManager = layoutManager ?:
+                    LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
         }
     }
 
@@ -125,6 +122,6 @@ open class SheetMenu(
             return this
         }
     }
-    //endregion
+//endregion
 }
 
