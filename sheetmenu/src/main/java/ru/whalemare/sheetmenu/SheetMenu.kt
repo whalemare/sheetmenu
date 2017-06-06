@@ -17,12 +17,14 @@ import ru.whalemare.sheetmenu.extension.inflate
  * @param titleId id from resources with text for title. it is more important than common <b>title</b> param
  * @param title string with text for title
  * @param menu id from resources for auto-inflate menu
+ * @param layoutManager for RecyclerView. By default: vertical linear layout manager.
  * @param click listener for menu items
  */
 open class SheetMenu(
         var titleId: Int = 0,
         var title: String? = "",
         var menu: Int = 0,
+        var layoutManager: RecyclerView.LayoutManager? = null,
         var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }) {
 
     fun show(context: Context) {
@@ -57,7 +59,9 @@ open class SheetMenu(
                 adapter = ListAdapter.with(context.inflate(menu)).apply {
                     callback = click
                 }
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                if (layoutManager == null) {
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                }
             }
         }
     }
@@ -74,10 +78,11 @@ open class SheetMenu(
 
         private var title = ""
         private var menu: Int = 0
+        private var layoutManager: RecyclerView.LayoutManager? = null
         private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
 
         fun show() {
-            SheetMenu(0, title, menu, click).show(context)
+            SheetMenu(0, title, menu, layoutManager, click).show(context)
         }
 
         /**
@@ -109,6 +114,14 @@ open class SheetMenu(
          */
         fun setClick(click: MenuItem.OnMenuItemClickListener): Builder {
             this.click = click
+            return this
+        }
+
+        /**
+         * @param layoutManager for RecyclerView. By default: vertical linear layout manager.
+         */
+        fun setLayoutManager(layoutManager: RecyclerView.LayoutManager?): Builder {
+            this.layoutManager = layoutManager
             return this
         }
     }

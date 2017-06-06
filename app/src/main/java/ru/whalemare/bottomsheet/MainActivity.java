@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.title,
                 null,
                 R.menu.menu,
+                null,
                 new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {

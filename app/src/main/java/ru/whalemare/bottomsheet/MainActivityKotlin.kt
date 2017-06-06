@@ -2,6 +2,7 @@ package ru.whalemare.bottomsheet
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
 import ru.whalemare.sheetmenu.SheetMenu
 
@@ -19,6 +20,7 @@ open class MainActivityKotlin : AppCompatActivity() {
     fun setup() {
         SheetMenu().apply {
             titleId = R.string.title
+            layoutManager = GridLayoutManager(this@MainActivityKotlin, 3)
             click = MenuItem.OnMenuItemClickListener { true }
             menu = R.menu.menu
         }.show(this)
