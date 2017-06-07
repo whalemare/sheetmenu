@@ -49,7 +49,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```groovy
-compile 'com.github.whalemare:sheetmenu:1.0'
+compile 'com.github.whalemare:sheetmenu:v1.1'
 ```
 
 
