@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button_show_menu).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_linear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setup();
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.title,
                 null,
                 R.menu.menu,
-                null,
+                null, null,
                 new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {

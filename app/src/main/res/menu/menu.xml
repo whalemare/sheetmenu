@@ -1,10 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_first"
+        android:id="@+id/action_one"
         android:icon="@drawable/ic_atom"
-        android:title="First"/>
+        android:title="One"/>
     <item
-        android:id="@+id/action_second"
+        android:id="@+id/action_two"
         android:icon="@drawable/ic_disco"
-        android:title="Second"/>
+        android:title="Two"/>
+    <item
+        android:id="@+id/action_three"
+        android:icon="@drawable/ic_atom"
+        android:title="Three"/>
+    <item
+        android:id="@+id/action_four"
+        android:icon="@drawable/ic_disco"
+        android:title="Four"/>
 </menu>

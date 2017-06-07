@@ -1,10 +1,11 @@
-package ru.whalemare.sheetmenu
+package ru.whalemare.sheetmenu.adapter
 
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import ru.whalemare.sheetmenu.R
 import ru.whalemare.sheetmenu.extension.toList
 
 /**
@@ -12,19 +13,20 @@ import ru.whalemare.sheetmenu.extension.toList
  * @since 2017
  * @author Anton Vlasov - whalemare
  */
-open class ListAdapter(var menuItems: List<MenuItem> = emptyList(),
-                       var callback: MenuItem.OnMenuItemClickListener? = null)
-    : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
+                       var callback: MenuItem.OnMenuItemClickListener? = null,
+                       var itemLayoutId: Int = 0)
+    : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     companion object {
-        fun with(menu: Menu): ListAdapter {
-            return ListAdapter(menu.toList())
+        fun with(itemLayoutId: Int, menu: Menu): MenuAdapter {
+            return MenuAdapter(menuItems = menu.toList(), itemLayoutId = itemLayoutId)
         }
     }
 
     @LayoutRes
     open fun getLayoutItem(): Int {
-        return R.layout.item_sheet_list
+        return itemLayoutId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -2,13 +2,17 @@ package ru.whalemare.sheetmenu
 
 import android.content.Context
 import android.support.design.widget.BottomSheetDialog
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import ru.whalemare.sheetmenu.adapter.MenuAdapter
 import ru.whalemare.sheetmenu.extension.inflate
+import ru.whalemare.sheetmenu.extension.marginTop
+import ru.whalemare.sheetmenu.extension.toList
 
 /**
  * Developed with ❤
@@ -17,7 +21,7 @@ import ru.whalemare.sheetmenu.extension.inflate
  * @param titleId id from resources with text for title. it is more important than common <b>title</b> param
  * @param title string with text for title
  * @param menu id from resources for auto-inflate menu
- * @param layoutManager for RecyclerView. By default: vertical linear layout manager.
+ * @param layoutManager for RecyclerView. By default: vertical linear layout manager. If you set this, @param <b>mode</b> is not be used.
  * @param click listener for menu items
  */
 open class SheetMenu(
@@ -25,6 +29,7 @@ open class SheetMenu(
         var title: String? = "",
         var menu: Int = 0,
         var layoutManager: RecyclerView.LayoutManager? = null,
+        var adapter: MenuAdapter? = null,
         var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }) {
 
     fun show(context: Context) {
@@ -38,7 +43,16 @@ open class SheetMenu(
 
         BottomSheetDialog(context).apply {
             setContentView(root)
+            processGrid(root)
         }.show()
+    }
+
+    private fun processGrid(root: View) {
+        if (root.findViewById(R.id.text_title).visibility != View.VISIBLE) {
+            if (layoutManager is GridLayoutManager) {
+                root.marginTop(24)
+            }
+        }
     }
 
     open protected fun processTitle(textTitle: TextView) {
@@ -55,11 +69,25 @@ open class SheetMenu(
 
     open protected fun processRecycler(recycler: RecyclerView) {
         if (menu > 0) {
-            recycler.adapter = ListAdapter.with(recycler.context.inflate(menu)).apply {
-                callback = click
+            if (layoutManager == null) {
+                layoutManager = LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
             }
-            recycler.layoutManager = layoutManager ?:
-                    LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
+
+            var itemLayoutId = R.layout.item_linear
+            if (layoutManager is GridLayoutManager) {
+                itemLayoutId = R.layout.item_grid
+            }
+
+            if (adapter == null) {
+                adapter = MenuAdapter(
+                        menuItems = recycler.context.inflate(menu).toList(),
+                        callback = click,
+                        itemLayoutId = itemLayoutId
+                )
+            }
+
+            recycler.adapter = adapter
+            recycler.layoutManager = layoutManager
         }
     }
 
@@ -76,10 +104,11 @@ open class SheetMenu(
         private var title = ""
         private var menu: Int = 0
         private var layoutManager: RecyclerView.LayoutManager? = null
+        private var adapter: MenuAdapter? = null
         private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
 
         fun show() {
-            SheetMenu(0, title, menu, layoutManager, click).show(context)
+            SheetMenu(0, title, menu, layoutManager, null, click).show(context)
         }
 
         /**
@@ -119,6 +148,15 @@ open class SheetMenu(
          */
         fun setLayoutManager(layoutManager: RecyclerView.LayoutManager?): Builder {
             this.layoutManager = layoutManager
+            return this
+        }
+
+        /**
+         * @param adapter for RecyclerView.
+         * @see MenuAdapter by default
+         */
+        fun setAdapter(adapter: MenuAdapter): Builder {
+            this.adapter = adapter
             return this
         }
     }

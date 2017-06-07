@@ -4,32 +4,43 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
+import android.widget.CheckBox
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
+
+    var needTitle = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById(R.id.button_show_menu).setOnClickListener({
-            setup()
+        (findViewById(R.id.checkbox_title) as CheckBox)
+                .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
+
+        findViewById(R.id.button_linear).setOnClickListener({
+            setupLinear()
         })
+
+        findViewById(R.id.button_grid).setOnClickListener({
+            setupGrid()
+        })
+
     }
 
-    fun setup() {
+    fun setupLinear() {
         SheetMenu().apply {
-            titleId = R.string.title
-            layoutManager = GridLayoutManager(this@MainActivityKotlin, 2)
+            titleId = if (needTitle) R.string.title else -1
             click = MenuItem.OnMenuItemClickListener { true }
             menu = R.menu.menu
         }.show(this)
     }
 
-    fun setup2() {
+    fun setupGrid() {
         SheetMenu(
+                titleId = if (needTitle) R.string.title else -1,
                 menu = R.menu.menu,
-                titleId = R.string.title,
+                layoutManager = GridLayoutManager(this, 3),
                 click = MenuItem.OnMenuItemClickListener { true }
         ).show(this)
     }

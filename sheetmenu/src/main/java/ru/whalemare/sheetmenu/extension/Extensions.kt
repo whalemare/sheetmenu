@@ -6,6 +6,9 @@ import android.support.v7.view.SupportMenuInflater
 import android.support.v7.view.menu.MenuBuilder
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+
 
 /**
  * Developed by Magora-Systems.com
@@ -24,3 +27,16 @@ fun Context.inflate(@MenuRes menuRes: Int): Menu {
     menuInflater.inflate(menuRes, menu)
     return menu
 }
+
+fun View.marginBottom(dp: Int) {
+    val params = this.layoutParams as ViewGroup.MarginLayoutParams
+    params.bottomMargin = dp2px(this.context, dp)
+}
+
+fun View.marginTop(dp: Int) {
+    val params = this.layoutParams as ViewGroup.MarginLayoutParams
+    params.topMargin = dp2px(this.context, dp)
+    this.layoutParams = params
+}
+
+fun dp2px(context: Context, dp: Int): Int = (dp * context.resources.displayMetrics.density + 0.5).toInt()
