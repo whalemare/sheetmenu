@@ -1,10 +1,12 @@
 package ru.whalemare.bottomsheet
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
 import android.widget.CheckBox
+import android.widget.Toast
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
@@ -25,23 +27,32 @@ open class MainActivityKotlin : AppCompatActivity() {
         findViewById(R.id.button_grid).setOnClickListener({
             setupGrid()
         })
-
     }
 
     fun setupLinear() {
         SheetMenu().apply {
-            titleId = if (needTitle) R.string.title else -1
-            click = MenuItem.OnMenuItemClickListener { true }
+            titleId = if (needTitle) R.string.title else 0
+            click = MenuItem.OnMenuItemClickListener {
+                toast("Click on ${it.title}")
+                true
+            }
             menu = R.menu.menu
         }.show(this)
     }
 
     fun setupGrid() {
         SheetMenu(
-                titleId = if (needTitle) R.string.title else -1,
+                titleId = if (needTitle) R.string.title else 0,
                 menu = R.menu.menu,
                 layoutManager = GridLayoutManager(this, 3),
-                click = MenuItem.OnMenuItemClickListener { true }
+                click = MenuItem.OnMenuItemClickListener {
+                    toast("Click on ${it.title}")
+                    true
+                }
         ).show(this)
     }
+}
+
+fun Context.toast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

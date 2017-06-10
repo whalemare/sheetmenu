@@ -30,21 +30,24 @@ open class SheetMenu(
         var menu: Int = 0,
         var layoutManager: RecyclerView.LayoutManager? = null,
         var adapter: MenuAdapter? = null,
-        var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }) {
+        var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
+        var autoCancel: Boolean = true) {
 
     fun show(context: Context) {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
+
+        val dialog = BottomSheetDialog(context).apply {
+            setContentView(root)
+            processGrid(root)
+        }
 
         val textTitle = root.findViewById(R.id.text_title) as TextView
         processTitle(textTitle)
 
         val recycler = root.findViewById(R.id.recycler_view) as RecyclerView
-        processRecycler(recycler)
+        processRecycler(recycler, dialog)
 
-        BottomSheetDialog(context).apply {
-            setContentView(root)
-            processGrid(root)
-        }.show()
+        dialog.show()
     }
 
     private fun processGrid(root: View) {
@@ -67,7 +70,7 @@ open class SheetMenu(
         }
     }
 
-    open protected fun processRecycler(recycler: RecyclerView) {
+    open protected fun processRecycler(recycler: RecyclerView, dialog: BottomSheetDialog) {
         if (menu > 0) {
             if (layoutManager == null) {
                 layoutManager = LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
@@ -81,13 +84,29 @@ open class SheetMenu(
             if (adapter == null) {
                 adapter = MenuAdapter(
                         menuItems = recycler.context.inflate(menu).toList(),
-                        callback = click,
+                        callback = MenuItem.OnMenuItemClickListener {
+                            click.onMenuItemClick(it)
+                            if (autoCancel) dialog.cancel()
+                            true
+                        },
                         itemLayoutId = itemLayoutId
                 )
             }
 
             recycler.adapter = adapter
             recycler.layoutManager = layoutManager
+        }
+    }
+
+    private fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
+        if (autoCancel) {
+            return MenuItem.OnMenuItemClickListener({
+                click.onMenuItemClick(it)
+                dialog.cancel()
+                true
+            })
+        } else {
+            return click
         }
     }
 
@@ -106,6 +125,7 @@ open class SheetMenu(
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var adapter: MenuAdapter? = null
         private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
+        private var autoCancel: Boolean = true;
 
         fun show() {
             SheetMenu(0, title, menu, layoutManager, null, click).show(context)
@@ -157,6 +177,11 @@ open class SheetMenu(
          */
         fun setAdapter(adapter: MenuAdapter): Builder {
             this.adapter = adapter
+            return this
+        }
+
+        fun setAutoCancel(autoCancel: Boolean): Builder {
+            this.autoCancel = autoCancel
             return this
         }
     }

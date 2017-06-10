@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         return false;
                     }
-                }
+                },
+                true
         ).show(this);
     }
 
