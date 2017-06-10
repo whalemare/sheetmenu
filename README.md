@@ -15,6 +15,7 @@ Use it in Kotlin with `apply` extension
             titleId = R.string.title
             click = MenuItem.OnMenuItemClickListener { true }
             menu = R.menu.menu
+            autoCancel = false
         }.show(this)
 ```
 
@@ -24,6 +25,7 @@ or in Java with `Builder` pattern
         SheetMenu.with(this)
                 .setTitle(R.string.title)
                 .setMenu(R.menu.menu)
+                .setAutoCancel(false)
                 .setClick(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -49,7 +51,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```groovy
-compile 'com.github.whalemare:sheetmenu:v1.1'
+compile 'com.github.whalemare:sheetmenu:1.2'
 ```
 
 
