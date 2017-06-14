@@ -51,7 +51,7 @@ open class SheetMenu(
         dialog.show()
     }
 
-    private fun processGrid(root: View) {
+    open protected fun processGrid(root: View) {
         if (root.findViewById(R.id.text_title).visibility != View.VISIBLE) {
             if (layoutManager is GridLayoutManager) {
                 root.marginTop(24)
@@ -99,7 +99,7 @@ open class SheetMenu(
         }
     }
 
-    private fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
+    open protected fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
         if (autoCancel) {
             return MenuItem.OnMenuItemClickListener({
                 click.onMenuItemClick(it)
@@ -200,6 +200,15 @@ open class SheetMenu(
             return this
         }
     }
-//endregion
+
+    fun apply(action: ActionSingle<SheetMenu>): SheetMenu {
+        action.call(this)
+        return this
+    }
+
+    interface ActionSingle<in T> {
+        fun call(it: T)
+    }
+    //endregion
 }
 
