@@ -37,13 +37,13 @@ open class SheetMenu(
     fun show(context: Context) {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
 
+        val textTitle = root.findViewById(R.id.text_title) as TextView
+        processTitle(textTitle)
+
         val dialog = BottomSheetDialog(context).apply {
             setContentView(root)
             processGrid(root)
         }
-
-        val textTitle = root.findViewById(R.id.text_title) as TextView
-        processTitle(textTitle)
 
         val recycler = root.findViewById(R.id.recycler_view) as RecyclerView
         processRecycler(recycler, dialog)
@@ -90,7 +90,8 @@ open class SheetMenu(
                             if (autoCancel) dialog.cancel()
                             true
                         },
-                        itemLayoutId = itemLayoutId
+                        itemLayoutId = itemLayoutId,
+                        showIcons = showIcons
                 )
             }
 

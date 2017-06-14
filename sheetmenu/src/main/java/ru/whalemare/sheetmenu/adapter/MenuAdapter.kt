@@ -15,12 +15,17 @@ import ru.whalemare.sheetmenu.extension.toList
  */
 open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
                        var callback: MenuItem.OnMenuItemClickListener? = null,
-                       var itemLayoutId: Int = 0)
+                       var itemLayoutId: Int = 0,
+                       var showIcons: Boolean = true)
     : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     companion object {
-        fun with(itemLayoutId: Int, menu: Menu): MenuAdapter {
-            return MenuAdapter(menuItems = menu.toList(), itemLayoutId = itemLayoutId)
+        fun with(itemLayoutId: Int, menu: Menu, showIcons: Boolean): MenuAdapter {
+            return MenuAdapter(
+                    menuItems = menu.toList(),
+                    itemLayoutId = itemLayoutId,
+                    showIcons = showIcons
+            )
         }
     }
 
@@ -37,10 +42,14 @@ open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = menuItems[position]
 
-        if (item.icon == null) {
-            holder.imageIcon.visibility = View.GONE
+        if (showIcons) {
+            if (item.icon == null) {
+                holder.imageIcon.visibility = View.GONE
+            } else {
+                holder.imageIcon.visibility = View.VISIBLE
+            }
         } else {
-            holder.imageIcon.visibility = View.VISIBLE
+            holder.imageIcon.visibility = View.GONE
         }
 
         holder.imageIcon.setImageDrawable(item.icon)

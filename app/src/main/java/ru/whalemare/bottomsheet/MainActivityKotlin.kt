@@ -41,19 +41,21 @@ open class MainActivityKotlin : AppCompatActivity() {
                 toast("Click on ${it.title}")
                 true
             }
-            menu = if (needIcons) R.menu.menu_icons else R.menu.menu
+            menu = R.menu.menu_icons
+            showIcons = needIcons
         }.show(this)
     }
 
     fun setupGrid() {
         SheetMenu(
                 titleId = if (needTitle) R.string.title else 0,
-                menu = R.menu.menu,
+                menu = R.menu.menu_icons,
                 layoutManager = GridLayoutManager(this, 3),
                 click = MenuItem.OnMenuItemClickListener {
                     toast("Click on ${it.title}")
                     true
-                }
+                },
+                showIcons = needIcons
         ).show(this)
     }
 }
