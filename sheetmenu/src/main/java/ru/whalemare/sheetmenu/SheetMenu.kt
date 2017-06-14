@@ -31,7 +31,8 @@ open class SheetMenu(
         var layoutManager: RecyclerView.LayoutManager? = null,
         var adapter: MenuAdapter? = null,
         var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
-        var autoCancel: Boolean = true) {
+        var autoCancel: Boolean = true,
+        var showIcons: Boolean = true) {
 
     fun show(context: Context) {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
@@ -125,10 +126,19 @@ open class SheetMenu(
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var adapter: MenuAdapter? = null
         private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
-        private var autoCancel: Boolean = true;
+        private var autoCancel: Boolean = true
+        private var showIcons: Boolean = true
 
         fun show() {
-            SheetMenu(0, title, menu, layoutManager, null, click).show(context)
+            SheetMenu(0,
+                    title,
+                    menu,
+                    layoutManager,
+                    null,
+                    click,
+                    autoCancel,
+                    showIcons
+            ).show(context)
         }
 
         /**
@@ -182,6 +192,11 @@ open class SheetMenu(
 
         fun setAutoCancel(autoCancel: Boolean): Builder {
             this.autoCancel = autoCancel
+            return this
+        }
+
+        fun showIcons(showIcons: Boolean): Builder {
+            this.showIcons = showIcons
             return this
         }
     }
