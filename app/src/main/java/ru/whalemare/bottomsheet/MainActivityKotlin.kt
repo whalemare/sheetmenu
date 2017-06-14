@@ -13,12 +13,17 @@ open class MainActivityKotlin : AppCompatActivity() {
 
     var needTitle = false
 
+    var needIcons = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         (findViewById(R.id.checkbox_title) as CheckBox)
                 .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
+
+        (findViewById(R.id.checkbox_icons) as CheckBox)
+                .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
 
         findViewById(R.id.button_linear).setOnClickListener({
             setupLinear()
@@ -36,7 +41,7 @@ open class MainActivityKotlin : AppCompatActivity() {
                 toast("Click on ${it.title}")
                 true
             }
-            menu = R.menu.menu
+            menu = if (needIcons) R.menu.menu_icons else R.menu.menu
         }.show(this)
     }
 

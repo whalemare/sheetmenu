@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private void setup() {
         SheetMenu.with(this)
                 .setTitle(R.string.title)
-                .setMenu(R.menu.menu)
+                .setMenu(R.menu.empty_menu)
                 .setClick(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {

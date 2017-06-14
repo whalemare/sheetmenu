@@ -37,6 +37,12 @@ open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = menuItems[position]
 
+        if (item.icon == null) {
+            holder.imageIcon.visibility = View.GONE
+        } else {
+            holder.imageIcon.visibility = View.VISIBLE
+        }
+
         holder.imageIcon.setImageDrawable(item.icon)
         holder.textTitle.text = item.title
         holder.itemView.setOnClickListener {
