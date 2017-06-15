@@ -15,6 +15,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
+        android:layout_marginEnd="32dp"
         tools:background="@color/gray_material"/>
 
     <TextView
@@ -23,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="32dp"
         android:textSize="16sp"
         tools:text="Item name"/>
 

@@ -13,12 +13,17 @@ open class MainActivityKotlin : AppCompatActivity() {
 
     var needTitle = false
 
+    var needIcons = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         (findViewById(R.id.checkbox_title) as CheckBox)
                 .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
+
+        (findViewById(R.id.checkbox_icons) as CheckBox)
+                .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
 
         findViewById(R.id.button_linear).setOnClickListener({
             setupLinear()
@@ -36,19 +41,21 @@ open class MainActivityKotlin : AppCompatActivity() {
                 toast("Click on ${it.title}")
                 true
             }
-            menu = R.menu.menu
+            menu = R.menu.menu_icons
+            showIcons = needIcons
         }.show(this)
     }
 
     fun setupGrid() {
         SheetMenu(
                 titleId = if (needTitle) R.string.title else 0,
-                menu = R.menu.menu,
+                menu = R.menu.menu_icons,
                 layoutManager = GridLayoutManager(this, 3),
                 click = MenuItem.OnMenuItemClickListener {
                     toast("Click on ${it.title}")
                     true
-                }
+                },
+                showIcons = needIcons
         ).show(this)
     }
 }

@@ -3,7 +3,7 @@ Library for speedy implementation menu with BottomSheet
 
 [![Release](https://jitpack.io/v/whalemare/sheetmenu.svg)](https://jitpack.io/#whalemare/sheetmenu)
 
-![Screenshot](v1.1.gif)
+![Screenshot](v1.3.gif)
 
 Usage
 -----
@@ -15,11 +15,22 @@ Use it in Kotlin with `apply` extension
             titleId = R.string.title
             click = MenuItem.OnMenuItemClickListener { true }
             menu = R.menu.menu
-            autoCancel = false
+            autoCancel = false // true, by default
+            showIcons = false // true, by default
         }.show(this)
 ```
 
-or in Java with `Builder` pattern 
+or in Java like `Kotlin`
+
+```kotlin
+        new SheetMenu().apply(it -> {
+            it.setMenu(R.menu.menu_icons);
+            it.setTitle("Title");
+            it.setAutoCancel(true); 
+        }).show(this);
+```
+
+or with classic `Builder` pattern 
 
 ```java
         SheetMenu.with(this)
@@ -51,7 +62,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```groovy
-compile 'com.github.whalemare:sheetmenu:1.2'
+compile 'com.github.whalemare:sheetmenu:1.3'
 ```
 
 
