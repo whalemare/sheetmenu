@@ -1,1 +1,11 @@
+rootProject.name = 'BottomSheet'
+rootProject.buildFileName = 'build.gradle.kts'
+
+def configureGradleScriptKotlinOn(ProjectDescriptor project) {
+    project.buildFileName = 'build.gradle.kts'
+    project.children.each { configureGradleScriptKotlinOn(it) }
+}
+
+configureGradleScriptKotlinOn rootProject
+
 include ':app', ':sheetmenu'
