@@ -3,7 +3,7 @@ Library for speedy implementation menu with BottomSheet
 
 [![Release](https://jitpack.io/v/whalemare/sheetmenu.svg)](https://jitpack.io/#whalemare/sheetmenu)
 
-![Screenshot](screens/1.3.2.gif)
+![Screenshot](screens/$app_version.gif)
 
 Usage
 -----
@@ -62,7 +62,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```groovy
-compile 'com.github.whalemare:sheetmenu:1.3.2'
+compile 'com.github.whalemare:sheetmenu:$app_version'
 ```
 
 
