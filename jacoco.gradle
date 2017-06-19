@@ -1,0 +1,76 @@
+apply plugin: 'jacoco-android'
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+android.testOptions {
+    unitTests.returnDefaultValues = true
+    unitTests.all {
+        jacoco {
+            includeNoLocationClasses = true
+        }
+    }
+}
+
+android.buildTypes{
+    debug {
+        testCoverageEnabled true
+    }
+}
+
+/**
+ * The correct path of the report is $rootProjectDir/app/build/reports/jacoco/index.html
+ * to run this task use: ./gradlew clean jacocoTestReport
+ */
+task jacocoTestReportA(type: JacocoReport,
+        //we use "debug" build type for test coverage (can be other)
+        dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    group = "reporting"
+    description = "Generate unified Jacoco code coverage report"
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        csv.enabled = false
+        xml.destination = "${buildDir}/reports/jacocoTestReport.xml"
+        html.destination = "${buildDir}/reports/jacoco"
+        csv.destination = "${buildDir}/reports/jacocoTestReport.csv"
+    }
+
+    def fileFilter = [
+            '**/*Test*.*',
+            '**/AutoValue_*.*',
+            '**/*JavascriptBridge.class',
+            '**/R.class',
+            '**/R$*.class',
+            '**/Manifest*.*',
+            'android/**/*.*',
+            '**/BuildConfig.*',
+            '**/*$ViewBinder*.*',
+            '**/*$ViewInjector*.*',
+            '**/Lambda$*.class',
+            '**/Lambda.class',
+            '**/*Lambda.class',
+            '**/*Lambda*.class',
+            '**/*$InjectAdapter.class',
+            '**/*$ModuleAdapter.class',
+            '**/*$ViewInjector*.class',
+            '**/*_MembersInjector.class', //Dagger2 generated code
+            '*/*_MembersInjector*.*', //Dagger2 generated code
+            '**/*_*Factory*.*', //Dagger2 generated code
+            '*/*Component*.*', //Dagger2 generated code
+            '**/*Module*.*' //Dagger2 generated code
+    ]
+
+    // we use "debug" build type for test coverage (can be other)
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec", // we use "debug" build type for test coverage (can be other)
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+}
