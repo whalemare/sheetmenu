@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_one"
+        android:icon="@drawable/ic_atom"
+        android:title="OneOne"/>
+    <item
+        android:id="@+id/action_two"
+        android:icon="@drawable/ic_disco"
+        android:title="Two Two Two"/>
+    <item
+        android:id="@+id/action_three"
+        android:icon="@drawable/ic_atom"
+        android:title="Three Three Three"/>
+    <item
+        android:id="@+id/action_four"
+        android:icon="@drawable/ic_disco"
+        android:title="Four Four Four"/>
+    <item
+        android:id="@+id/action_five"
+        android:icon="@drawable/ic_atom"
+        android:title="Five Five Five"/>
+    <item
+        android:id="@+id/action_six"
+        android:icon="@drawable/ic_disco"
+        android:title="Six Six Six"/>
+    <item
+        android:id="@+id/action_seven"
+        android:icon="@drawable/ic_atom"
+        android:title="Seven Seven Seven"/>
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_disco"
+        android:title="More More More"/>
+</menu>
