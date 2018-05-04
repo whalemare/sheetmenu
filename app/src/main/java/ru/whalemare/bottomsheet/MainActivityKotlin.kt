@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
+import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import ru.whalemare.sheetmenu.SheetMenu
@@ -19,17 +20,17 @@ open class MainActivityKotlin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        (findViewById(R.id.checkbox_title) as CheckBox)
+        (findViewById<CheckBox>(R.id.checkbox_title))
                 .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
 
-        (findViewById(R.id.checkbox_icons) as CheckBox)
+        (findViewById<CheckBox>(R.id.checkbox_icons))
                 .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
 
-        findViewById(R.id.button_linear).setOnClickListener({
+        findViewById<View>(R.id.button_linear).setOnClickListener({
             setupLinear()
         })
 
-        findViewById(R.id.button_grid).setOnClickListener({
+        findViewById<View>(R.id.button_grid).setOnClickListener({
             setupGrid()
         })
     }
