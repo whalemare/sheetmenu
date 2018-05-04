@@ -62,7 +62,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```diff
-+ implementation 'com.github.whalemare:sheetmenu:$app_version'
++ implementation 'com.github.whalemare:sheetmenu:1.3.5'
 ```
 
 
