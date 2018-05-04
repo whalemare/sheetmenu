@@ -51,15 +51,15 @@ open class SheetMenu(
         dialog.show()
     }
 
-    open protected fun processGrid(root: View) {
-        if (root.findViewById(R.id.text_title).visibility != View.VISIBLE) {
+    protected open fun processGrid(root: View) {
+        if (root.findViewById<View>(R.id.text_title).visibility != View.VISIBLE) {
             if (layoutManager is GridLayoutManager) {
                 root.marginTop(24)
             }
         }
     }
 
-    open protected fun processTitle(textTitle: TextView) {
+    protected open fun processTitle(textTitle: TextView) {
         if (titleId > 0) {
             textTitle.setText(titleId)
             textTitle.visibility = View.VISIBLE
@@ -71,7 +71,7 @@ open class SheetMenu(
         }
     }
 
-    open protected fun processRecycler(recycler: RecyclerView, dialog: BottomSheetDialog) {
+    protected open fun processRecycler(recycler: RecyclerView, dialog: BottomSheetDialog) {
         if (menu > 0) {
             if (layoutManager == null) {
                 layoutManager = LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)

@@ -1,5 +1,6 @@
 package ru.whalemare.sheetmenu.extension
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.annotation.MenuRes
 import android.support.v7.view.SupportMenuInflater
@@ -17,10 +18,11 @@ import android.view.ViewGroup
  */
 fun Menu.toList(): List<MenuItem> {
     val menuItems = ArrayList<MenuItem>(this.size())
-    (0..this.size() - 1).mapTo(menuItems) { this.getItem(it) }
+    (0 until this.size()).mapTo(menuItems) { this.getItem(it) }
     return menuItems
 }
 
+@SuppressLint("RestrictedApi")
 fun Context.inflate(@MenuRes menuRes: Int): Menu {
     val menu = MenuBuilder(this)
     val menuInflater = SupportMenuInflater(this)
