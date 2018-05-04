@@ -3,7 +3,7 @@ Library for speedy implementation menu with BottomSheet
 
 [![Release](https://jitpack.io/v/whalemare/sheetmenu.svg)](https://jitpack.io/#whalemare/sheetmenu)
 
-![Screenshot](screens/1.3.3.gif)
+![Screenshot](screens/1.3.2.gif)
 
 Usage
 -----
