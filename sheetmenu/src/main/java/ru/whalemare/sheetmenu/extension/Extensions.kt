@@ -2,13 +2,13 @@ package ru.whalemare.sheetmenu.extension
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.annotation.MenuRes
-import android.support.v7.view.SupportMenuInflater
-import android.support.v7.view.menu.MenuBuilder
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.SupportMenuInflater
+import androidx.appcompat.view.menu.MenuBuilder
 
 
 /**
@@ -41,4 +41,5 @@ fun View.marginTop(dp: Int) {
     this.layoutParams = params
 }
 
-fun dp2px(context: Context, dp: Int): Int = (dp * context.resources.displayMetrics.density + 0.5).toInt()
+fun dp2px(context: Context, dp: Int): Int =
+    (dp * context.resources.displayMetrics.density + 0.5).toInt()
