@@ -1,14 +1,16 @@
 package ru.whalemare.sheetmenu
 
 import android.content.Context
-import android.support.design.widget.BottomSheetDialog
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.whalemare.sheetmenu.adapter.MenuAdapter
 import ru.whalemare.sheetmenu.extension.inflate
 import ru.whalemare.sheetmenu.extension.marginTop
@@ -25,14 +27,16 @@ import ru.whalemare.sheetmenu.extension.toList
  * @param click listener for menu items
  */
 open class SheetMenu(
-        var titleId: Int = 0,
-        var title: String? = "",
-        var menu: Int = 0,
-        var layoutManager: RecyclerView.LayoutManager? = null,
-        var adapter: MenuAdapter? = null,
-        var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
-        var autoCancel: Boolean = true,
-        var showIcons: Boolean = true) {
+    var titleId: Int = 0,
+    var title: String? = "",
+    var menu: Int = 0,
+    var layoutManager: RecyclerView.LayoutManager? = null,
+    var adapter: MenuAdapter? = null,
+    var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
+    var autoCancel: Boolean = true,
+    var showIcons: Boolean = true
+) {
+    private var dialog: BottomSheetDialog? = null
 
     fun show(context: Context) {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
@@ -40,15 +44,27 @@ open class SheetMenu(
         val textTitle = root.findViewById(R.id.text_title) as TextView
         processTitle(textTitle)
 
-        val dialog = BottomSheetDialog(context).apply {
-            setContentView(root)
+        val dialog = BottomSheetDialog(context).also {
+            it.setContentView(root)
             processGrid(root)
         }
+        this.dialog = dialog
 
         val recycler = root.findViewById(R.id.recycler_view) as RecyclerView
         processRecycler(recycler, dialog)
 
+        root.viewTreeObserver.addOnGlobalLayoutListener {
+            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val behavior = BottomSheetBehavior.from(bottomSheet)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.peekHeight = 0
+        }
         dialog.show()
+    }
+
+    fun hide() {
+        dialog?.hide()
+        dialog = null
     }
 
     protected open fun processGrid(root: View) {
@@ -74,7 +90,7 @@ open class SheetMenu(
     protected open fun processRecycler(recycler: RecyclerView, dialog: BottomSheetDialog) {
         if (menu > 0) {
             if (layoutManager == null) {
-                layoutManager = LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
+                layoutManager = LinearLayoutManager(recycler.context, RecyclerView.VERTICAL, false)
             }
 
             var itemLayoutId = R.layout.item_linear
@@ -84,14 +100,14 @@ open class SheetMenu(
 
             if (adapter == null) {
                 adapter = MenuAdapter(
-                        menuItems = recycler.context.inflate(menu).toList(),
-                        callback = MenuItem.OnMenuItemClickListener {
-                            click.onMenuItemClick(it)
-                            if (autoCancel) dialog.cancel()
-                            true
-                        },
-                        itemLayoutId = itemLayoutId,
-                        showIcons = showIcons
+                    menuItems = recycler.context.inflate(menu).toList(),
+                    callback = MenuItem.OnMenuItemClickListener {
+                        click.onMenuItemClick(it)
+                        if (autoCancel) dialog.cancel()
+                        true
+                    },
+                    itemLayoutId = itemLayoutId,
+                    showIcons = showIcons
                 )
             }
 
@@ -100,15 +116,15 @@ open class SheetMenu(
         }
     }
 
-    open protected fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
-        if (autoCancel) {
-            return MenuItem.OnMenuItemClickListener({
+    protected open fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
+        return if (autoCancel) {
+            MenuItem.OnMenuItemClickListener {
                 click.onMenuItemClick(it)
                 dialog.cancel()
                 true
-            })
+            }
         } else {
-            return click
+            click
         }
     }
 
@@ -120,8 +136,7 @@ open class SheetMenu(
         }
     }
 
-    class Builder(val context: Context) {
-
+    class Builder(private val context: Context) {
         private var title = ""
         private var menu: Int = 0
         private var layoutManager: RecyclerView.LayoutManager? = null
@@ -131,14 +146,15 @@ open class SheetMenu(
         private var showIcons: Boolean = true
 
         fun show() {
-            SheetMenu(0,
-                    title,
-                    menu,
-                    layoutManager,
-                    null,
-                    click,
-                    autoCancel,
-                    showIcons
+            SheetMenu(
+                0,
+                title,
+                menu,
+                layoutManager,
+                null,
+                click,
+                autoCancel,
+                showIcons
             ).show(context)
         }
 

@@ -2,12 +2,12 @@ package ru.whalemare.bottomsheet
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
@@ -26,13 +26,13 @@ open class MainActivityKotlin : AppCompatActivity() {
         (findViewById<CheckBox>(R.id.checkbox_icons))
                 .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
 
-        findViewById<View>(R.id.button_linear).setOnClickListener({
+        findViewById<View>(R.id.button_linear).setOnClickListener {
             setupLinear()
-        })
+        }
 
-        findViewById<View>(R.id.button_grid).setOnClickListener({
+        findViewById<View>(R.id.button_grid).setOnClickListener {
             setupGrid()
-        })
+        }
     }
 
     fun setupLinear() {
