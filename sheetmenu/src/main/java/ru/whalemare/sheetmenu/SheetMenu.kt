@@ -62,8 +62,8 @@ open class SheetMenu(
         dialog.show()
     }
 
-    fun hide() {
-        dialog?.hide()
+    fun dismiss() {
+        dialog?.dismiss()
         dialog = null
     }
 

@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
-
     var needTitle = false
 
     var needIcons = true
+
+    private var sheetMenu: SheetMenu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +36,13 @@ open class MainActivityKotlin : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        sheetMenu?.dismiss()
+    }
+
     fun setupLinear() {
-        SheetMenu().apply {
+        sheetMenu = SheetMenu().apply {
             titleId = if (needTitle) R.string.title else 0
             click = MenuItem.OnMenuItemClickListener {
                 toast("Click on ${it.title}")
@@ -44,20 +50,22 @@ open class MainActivityKotlin : AppCompatActivity() {
             }
             menu = R.menu.menu_icons
             showIcons = needIcons
-        }.show(this)
+        }
+        sheetMenu?.show(this)
     }
 
     fun setupGrid() {
-        SheetMenu(
-                titleId = if (needTitle) R.string.title else 0,
-                menu = R.menu.menu_long_icons,
-                layoutManager = GridLayoutManager(this, 3),
-                click = MenuItem.OnMenuItemClickListener {
-                    toast("Click on ${it.title}")
-                    true
-                },
-                showIcons = needIcons
-        ).show(this)
+        sheetMenu = SheetMenu(
+            titleId = if (needTitle) R.string.title else 0,
+            menu = R.menu.menu_long_icons,
+            layoutManager = GridLayoutManager(this, 3),
+            click = MenuItem.OnMenuItemClickListener {
+                toast("Click on ${it.title}")
+                true
+            },
+            showIcons = needIcons
+        )
+        sheetMenu?.show(this)
     }
 }
 
