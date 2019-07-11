@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,14 +28,14 @@ import ru.whalemare.sheetmenu.extension.toList
  * @param click listener for menu items
  */
 open class SheetMenu(
-    var titleId: Int = 0,
-    var title: String? = "",
-    var menu: Int = 0,
-    var layoutManager: RecyclerView.LayoutManager? = null,
-    var adapter: MenuAdapter? = null,
-    var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
-    var autoCancel: Boolean = true,
-    var showIcons: Boolean = true
+        var titleId: Int = 0,
+        var title: String? = "",
+        var menu: Int = 0,
+        var layoutManager: RecyclerView.LayoutManager? = null,
+        var adapter: MenuAdapter? = null,
+        var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
+        var autoCancel: Boolean = true,
+        var showIcons: Boolean = true
 ) {
     private var dialog: BottomSheetDialog? = null
 
@@ -58,6 +59,17 @@ open class SheetMenu(
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = 0
+            behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(p0: View, p1: Float) {
+                    //do nothing
+                }
+
+                override fun onStateChanged(@NonNull bottomSheet: View, newState: Int) {
+                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        dialog.dismiss()
+                    }
+                }
+            })
         }
         dialog.show()
     }
@@ -100,14 +112,14 @@ open class SheetMenu(
 
             if (adapter == null) {
                 adapter = MenuAdapter(
-                    menuItems = recycler.context.inflate(menu).toList(),
-                    callback = MenuItem.OnMenuItemClickListener {
-                        click.onMenuItemClick(it)
-                        if (autoCancel) dialog.cancel()
-                        true
-                    },
-                    itemLayoutId = itemLayoutId,
-                    showIcons = showIcons
+                        menuItems = recycler.context.inflate(menu).toList(),
+                        callback = MenuItem.OnMenuItemClickListener {
+                            click.onMenuItemClick(it)
+                            if (autoCancel) dialog.cancel()
+                            true
+                        },
+                        itemLayoutId = itemLayoutId,
+                        showIcons = showIcons
                 )
             }
 
@@ -138,23 +150,23 @@ open class SheetMenu(
 
     class Builder(private val context: Context) {
         private var title = ""
-        private var menu: Int = 0
+        private var menu = 0
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var adapter: MenuAdapter? = null
-        private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
-        private var autoCancel: Boolean = true
-        private var showIcons: Boolean = true
+        private var click = MenuItem.OnMenuItemClickListener { false }
+        private var autoCancel = true
+        private var showIcons = true
 
         fun show() {
             SheetMenu(
-                0,
-                title,
-                menu,
-                layoutManager,
-                null,
-                click,
-                autoCancel,
-                showIcons
+                    0,
+                    title,
+                    menu,
+                    layoutManager,
+                    null,
+                    click,
+                    autoCancel,
+                    showIcons
             ).show(context)
         }
 
