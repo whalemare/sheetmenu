@@ -36,11 +36,6 @@ open class MainActivityKotlin : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        sheetMenu?.dismiss()
-    }
-
     fun setupLinear() {
         sheetMenu = SheetMenu().apply {
             titleId = if (needTitle) R.string.title else 0
@@ -51,7 +46,7 @@ open class MainActivityKotlin : AppCompatActivity() {
             menu = R.menu.menu_icons
             showIcons = needIcons
         }
-        sheetMenu?.show(this)
+        sheetMenu?.show(this, lifecycle)
     }
 
     fun setupGrid() {
@@ -65,7 +60,7 @@ open class MainActivityKotlin : AppCompatActivity() {
             },
             showIcons = needIcons
         )
-        sheetMenu?.show(this)
+        sheetMenu?.show(this, lifecycle)
     }
 }
 

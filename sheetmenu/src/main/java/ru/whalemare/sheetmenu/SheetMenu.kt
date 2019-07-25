@@ -1,11 +1,15 @@
 package ru.whalemare.sheetmenu
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,104 +40,146 @@ open class SheetMenu(
     var autoCancel: Boolean = true,
     var showIcons: Boolean = true
 ) {
-    private var dialog: BottomSheetDialog? = null
+    protected var dialog: BottomSheetDialog? = null
+    protected var dialogLifecycleObserver: DialogLifecycleObserver? = null
 
+    fun show(context: Context, lifecycle: Lifecycle) {
+        dialogLifecycleObserver?.let {
+            lifecycle.removeObserver(it)
+        }
+        dialogLifecycleObserver = DialogLifecycleObserver(showDialog(context)).also {
+            lifecycle.addObserver(it)
+        }
+    }
+
+    @Deprecated(
+        message = "Use show(context: Context, lifecycle: Lifecycle)",
+        replaceWith = ReplaceWith("show(context, lifecycle)")
+    )
     fun show(context: Context) {
+        showDialog(context)
+    }
+
+    @SuppressLint("InflateParams")
+    open fun showDialog(context: Context): BottomSheetDialog {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
 
-        val textTitle = root.findViewById(R.id.text_title) as TextView
-        processTitle(textTitle)
+        processTitle(
+            titleTextView = root.findViewById(R.id.text_title) as TextView,
+            titleId = titleId,
+            titleStr = title
+        )
 
         val dialog = BottomSheetDialog(context).also {
             it.setContentView(root)
-            processGrid(root)
+            processGrid(root, layoutManager)
         }
         this.dialog = dialog
 
-        val recycler = root.findViewById(R.id.recycler_view) as RecyclerView
-        processRecycler(recycler, dialog)
+        processRecycler(
+            recycler = root.findViewById(R.id.recycler_view) as RecyclerView,
+            dialog = dialog,
+            menu = menu,
+            layoutManager = layoutManager,
+            adapter = adapter,
+            click = click,
+            autoCancel = autoCancel,
+            showIcons = showIcons
+        )
 
         root.viewTreeObserver.addOnGlobalLayoutListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = 0
         }
         dialog.show()
+        return dialog
     }
 
-    fun dismiss() {
+    open fun dismiss() {
         dialog?.dismiss()
         dialog = null
     }
 
-    protected open fun processGrid(root: View) {
-        if (root.findViewById<View>(R.id.text_title).visibility != View.VISIBLE) {
-            if (layoutManager is GridLayoutManager) {
-                root.marginTop(24)
-            }
+    protected open fun processGrid(root: View, layoutManager: RecyclerView.LayoutManager?) {
+        if (
+            root.findViewById<View>(R.id.text_title).visibility != View.VISIBLE &&
+            layoutManager is GridLayoutManager
+        ) {
+            root.marginTop(24)
         }
     }
 
-    protected open fun processTitle(textTitle: TextView) {
-        if (titleId > 0) {
-            textTitle.setText(titleId)
-            textTitle.visibility = View.VISIBLE
-        } else if (!title.isNullOrBlank()) {
-            textTitle.text = title
-            textTitle.visibility = View.VISIBLE
+    protected open fun processTitle(
+        titleTextView: TextView,
+        titleId: Int,
+        titleStr: String?
+    ) = titleTextView.run {
+        visibility = if (titleId > 0) {
+            setText(titleId)
+            View.VISIBLE
+        } else if (!titleStr.isNullOrBlank()) {
+            text = titleStr
+            View.VISIBLE
         } else {
-            textTitle.visibility = View.GONE
+            View.GONE
         }
     }
 
-    protected open fun processRecycler(recycler: RecyclerView, dialog: BottomSheetDialog) {
+    protected open fun processRecycler(
+        recycler: RecyclerView,
+        dialog: BottomSheetDialog,
+        menu: Int,
+        layoutManager: RecyclerView.LayoutManager?,
+        adapter: MenuAdapter?,
+        click: MenuItem.OnMenuItemClickListener,
+        autoCancel: Boolean,
+        showIcons: Boolean
+    ) {
         if (menu > 0) {
-            if (layoutManager == null) {
-                layoutManager = LinearLayoutManager(recycler.context, RecyclerView.VERTICAL, false)
-            }
-
-            var itemLayoutId = R.layout.item_linear
-            if (layoutManager is GridLayoutManager) {
-                itemLayoutId = R.layout.item_grid
-            }
-
-            if (adapter == null) {
-                adapter = MenuAdapter(
+            recycler.adapter = adapter
+                ?: MenuAdapter(
                     menuItems = recycler.context.inflate(menu).toList(),
                     callback = MenuItem.OnMenuItemClickListener {
                         click.onMenuItemClick(it)
                         if (autoCancel) dialog.cancel()
                         true
                     },
-                    itemLayoutId = itemLayoutId,
+                    itemLayoutId = if (layoutManager is GridLayoutManager)
+                        R.layout.item_grid
+                    else
+                        R.layout.item_linear,
                     showIcons = showIcons
                 )
-            }
+                    .also { this.adapter = it }
 
-            recycler.adapter = adapter
             recycler.layoutManager = layoutManager
+                ?: LinearLayoutManager(recycler.context, RecyclerView.VERTICAL, false)
+                    .also { this.layoutManager = it }
         }
     }
 
-    protected open fun processClick(dialog: BottomSheetDialog): MenuItem.OnMenuItemClickListener {
-        return if (autoCancel) {
+    protected open fun processClick(
+        dialog: BottomSheetDialog,
+        click: MenuItem.OnMenuItemClickListener,
+        autoCancel: Boolean
+    ): MenuItem.OnMenuItemClickListener =
+        if (autoCancel)
             MenuItem.OnMenuItemClickListener {
                 click.onMenuItemClick(it)
                 dialog.cancel()
                 true
             }
-        } else {
+        else
             click
-        }
-    }
 
     //region java interop
     companion object {
         @JvmStatic
-        fun with(context: Context): SheetMenu.Builder {
-            return SheetMenu.Builder(context)
-        }
+        fun with(context: Context) =
+            Builder(context)
     }
 
     class Builder(private val context: Context) {
@@ -141,7 +187,8 @@ open class SheetMenu(
         private var menu: Int = 0
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var adapter: MenuAdapter? = null
-        private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
+        private var click: MenuItem.OnMenuItemClickListener =
+            MenuItem.OnMenuItemClickListener { false }
         private var autoCancel: Boolean = true
         private var showIcons: Boolean = true
 

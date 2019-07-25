@@ -4,6 +4,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ru.whalemare.sheetmenu.R
 import ru.whalemare.sheetmenu.extension.toList
@@ -19,21 +20,18 @@ open class MenuAdapter(
     var itemLayoutId: Int = 0,
     var showIcons: Boolean = true
 ) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-
     companion object {
-        fun with(itemLayoutId: Int, menu: Menu, showIcons: Boolean): MenuAdapter {
-            return MenuAdapter(
+        fun with(itemLayoutId: Int, menu: Menu, showIcons: Boolean): MenuAdapter =
+            MenuAdapter(
                 menuItems = menu.toList(),
                 itemLayoutId = itemLayoutId,
                 showIcons = showIcons
             )
-        }
     }
 
     @LayoutRes
-    open fun getLayoutItem(): Int {
-        return itemLayoutId
-    }
+    open fun getLayoutItem(): Int =
+        itemLayoutId
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(getLayoutItem(), parent, false)
@@ -43,16 +41,7 @@ open class MenuAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = menuItems[position]
 
-        if (showIcons) {
-            if (item.icon == null) {
-                holder.imageIcon.visibility = View.GONE
-            } else {
-                holder.imageIcon.visibility = View.VISIBLE
-            }
-        } else {
-            holder.imageIcon.visibility = View.GONE
-        }
-
+        holder.imageIcon.isVisible = showIcons && item.icon != null
         holder.imageIcon.setImageDrawable(item.icon)
         holder.textTitle.text = item.title
         holder.itemView.setOnClickListener {
@@ -60,12 +49,11 @@ open class MenuAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return menuItems.size
-    }
+    override fun getItemCount(): Int =
+        menuItems.size
 
     open class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imageIcon: ImageView = itemView.findViewById(R.id.image_icon) as ImageView
-        var textTitle: TextView = itemView.findViewById(R.id.text_title) as TextView
+        val imageIcon: ImageView = itemView.findViewById(R.id.image_icon) as ImageView
+        val textTitle: TextView = itemView.findViewById(R.id.text_title) as TextView
     }
 }

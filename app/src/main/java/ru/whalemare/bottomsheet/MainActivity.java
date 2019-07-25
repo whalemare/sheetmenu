@@ -3,7 +3,6 @@ package ru.whalemare.bottomsheet;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import ru.whalemare.sheetmenu.SheetMenu;
 
