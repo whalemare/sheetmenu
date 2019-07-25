@@ -3,7 +3,9 @@ package ru.whalemare.bottomsheet;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import ru.whalemare.sheetmenu.SheetMenu;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 R.string.title,
                 null,
                 R.menu.menu,
-                null, null,
+                null,
+                null,
                 new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },
                 true,
-                true
+                true,
+                null
         ).show(this);
     }
 

@@ -2,14 +2,13 @@ package ru.whalemare.sheetmenu
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +37,8 @@ open class SheetMenu(
     var adapter: MenuAdapter? = null,
     var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
     var autoCancel: Boolean = true,
-    var showIcons: Boolean = true
+    var showIcons: Boolean = true,
+    var onDismissListener: DialogInterface.OnDismissListener? = null
 ) {
     protected var dialog: BottomSheetDialog? = null
     protected var dialogLifecycleObserver: DialogLifecycleObserver? = null
@@ -47,7 +47,8 @@ open class SheetMenu(
         dialogLifecycleObserver?.let {
             lifecycle.removeObserver(it)
         }
-        dialogLifecycleObserver = DialogLifecycleObserver(showDialog(context)).also {
+        val dialog = showDialog(context)
+        dialogLifecycleObserver = DialogLifecycleObserver(dialog).also {
             lifecycle.addObserver(it)
         }
     }
@@ -73,6 +74,9 @@ open class SheetMenu(
         val dialog = BottomSheetDialog(context).also {
             it.setContentView(root)
             processGrid(root, layoutManager)
+        }
+        onDismissListener?.let {
+            dialog.setOnDismissListener(it)
         }
         this.dialog = dialog
 
@@ -191,6 +195,7 @@ open class SheetMenu(
             MenuItem.OnMenuItemClickListener { false }
         private var autoCancel: Boolean = true
         private var showIcons: Boolean = true
+        private var onDismissListener: DialogInterface.OnDismissListener? = null
 
         fun show() {
             SheetMenu(
@@ -261,6 +266,11 @@ open class SheetMenu(
 
         fun showIcons(showIcons: Boolean): Builder {
             this.showIcons = showIcons
+            return this
+        }
+
+        fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener): Builder {
+            this.onDismissListener = onDismissListener
             return this
         }
     }
