@@ -38,7 +38,8 @@ open class SheetMenu(
     var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
     var autoCancel: Boolean = true,
     var showIcons: Boolean = true,
-    var onDismissListener: DialogInterface.OnDismissListener? = null
+    var onDismissListener: DialogInterface.OnDismissListener? = null,
+    var onCancelListener: DialogInterface.OnCancelListener? = null
 ) {
     protected var dialog: BottomSheetDialog? = null
     protected var dialogLifecycleObserver: DialogLifecycleObserver? = null
@@ -71,15 +72,14 @@ open class SheetMenu(
             titleStr = title
         )
 
-        val dialog = BottomSheetDialog(context).also {
-            it.setContentView(root)
-            processGrid(root, layoutManager)
-        }
-        onDismissListener?.let {
-            dialog.setOnDismissListener(it)
+        val dialog = BottomSheetDialog(context).apply {
+            setContentView(root)
+            setOnDismissListener(onDismissListener)
+            setOnCancelListener(onCancelListener)
         }
         this.dialog = dialog
 
+        processGrid(root, layoutManager)
         processRecycler(
             recycler = root.findViewById(R.id.recycler_view) as RecyclerView,
             dialog = dialog,
@@ -104,6 +104,11 @@ open class SheetMenu(
 
     open fun dismiss() {
         dialog?.dismiss()
+        dialog = null
+    }
+
+    open fun cancel() {
+        dialog?.cancel()
         dialog = null
     }
 

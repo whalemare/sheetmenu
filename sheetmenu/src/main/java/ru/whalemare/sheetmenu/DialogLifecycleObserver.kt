@@ -8,6 +8,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 class DialogLifecycleObserver(
     private val dialog: BottomSheetDialog
 ) : LifecycleObserver {
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun dismiss() = dialog.dismiss()
 }

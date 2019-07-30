@@ -58,7 +58,8 @@ fun Context.showSheetMenu(
     click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
     autoCancel: Boolean = true,
     showIcons: Boolean = true,
-    onDismissListener: DialogInterface.OnDismissListener? = null
+    onDismissListener: DialogInterface.OnDismissListener? = null,
+    onCancelListener: DialogInterface.OnCancelListener? = null
 ) = SheetMenu(
     titleId = titleId,
     title = title,
@@ -68,7 +69,8 @@ fun Context.showSheetMenu(
     click = click,
     autoCancel = autoCancel,
     showIcons = showIcons,
-    onDismissListener = onDismissListener
+    onDismissListener = onDismissListener,
+    onCancelListener = onCancelListener
 ).also {
     it.show(this, lifecycle)
 }

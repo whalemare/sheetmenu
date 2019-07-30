@@ -1,7 +1,9 @@
 package ru.whalemare.bottomsheet
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
@@ -45,6 +47,12 @@ open class MainActivityKotlin : AppCompatActivity() {
             }
             menu = R.menu.menu_icons
             showIcons = needIcons
+            onDismissListener = DialogInterface.OnDismissListener {
+                Log.e("SheetMenu", "Dismiss")
+            }
+            onCancelListener = DialogInterface.OnCancelListener {
+                Log.e("SheetMenu", "Cancel")
+            }
         }
         sheetMenu?.show(this, lifecycle)
     }
@@ -58,7 +66,13 @@ open class MainActivityKotlin : AppCompatActivity() {
                 toast("Click on ${it.title}")
                 true
             },
-            showIcons = needIcons
+            showIcons = needIcons,
+            onDismissListener = DialogInterface.OnDismissListener {
+                Log.e("SheetMenu", "Dismiss")
+            },
+            onCancelListener = DialogInterface.OnCancelListener {
+                Log.e("SheetMenu", "Cancel")
+            }
         )
         sheetMenu?.show(this, lifecycle)
     }
