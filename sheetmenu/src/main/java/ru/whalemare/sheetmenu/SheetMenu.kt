@@ -21,21 +21,27 @@ import ru.whalemare.sheetmenu.extension.toList
  * Developed with ❤
  * @since 2017
  * @author Anton Vlasov - whalemare
+ * @author Kirill Romanenko - indrih17
+ * @author Hamid SN - hamidsn
  * @param titleId id from resources with text for title. it is more important than common <b>title</b> param
  * @param title string with text for title
  * @param menu id from resources for auto-inflate menu
  * @param layoutManager for RecyclerView. By default: vertical linear layout manager. If you set this, @param <b>mode</b> is not be used.
  * @param click listener for menu items
+ * @param autoCancel automatically hide menu if user tap on menu item
+ * @param showIcons show icons for menu items
+ * @param mapMenuItems use-full for modify items before render
  */
 open class SheetMenu(
-        var titleId: Int = 0,
-        var title: String? = "",
-        var menu: Int = 0,
-        var layoutManager: RecyclerView.LayoutManager? = null,
-        var adapter: MenuAdapter? = null,
-        var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
-        var autoCancel: Boolean = true,
-        var showIcons: Boolean = true
+    var titleId: Int = 0,
+    var title: String? = "",
+    var menu: Int = 0,
+    var layoutManager: RecyclerView.LayoutManager? = null,
+    var adapter: MenuAdapter? = null,
+    var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
+    var autoCancel: Boolean = true,
+    var showIcons: Boolean = true,
+    var mapMenuItems: (List<MenuItem>) -> List<MenuItem> = { items -> items }
 ) {
     private var dialog: BottomSheetDialog? = null
 
@@ -111,15 +117,16 @@ open class SheetMenu(
             }
 
             if (adapter == null) {
+                val menuItems = recycler.context.inflate(menu).toList()
                 adapter = MenuAdapter(
-                        menuItems = recycler.context.inflate(menu).toList(),
-                        callback = MenuItem.OnMenuItemClickListener {
-                            click.onMenuItemClick(it)
-                            if (autoCancel) dialog.cancel()
-                            true
-                        },
-                        itemLayoutId = itemLayoutId,
-                        showIcons = showIcons
+                    menuItems = mapMenuItems(menuItems),
+                    callback = MenuItem.OnMenuItemClickListener {
+                        click.onMenuItemClick(it)
+                        if (autoCancel) dialog.cancel()
+                        true
+                    },
+                    itemLayoutId = itemLayoutId,
+                    showIcons = showIcons
                 )
             }
 
@@ -153,20 +160,22 @@ open class SheetMenu(
         private var menu = 0
         private var layoutManager: RecyclerView.LayoutManager? = null
         private var adapter: MenuAdapter? = null
-        private var click = MenuItem.OnMenuItemClickListener { false }
-        private var autoCancel = true
-        private var showIcons = true
+        private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
+        private var autoCancel: Boolean = true
+        private var showIcons: Boolean = true
+        private var onItemsPrepared: (List<MenuItem>) -> List<MenuItem> = { items -> items }
 
         fun show() {
             SheetMenu(
-                    0,
-                    title,
-                    menu,
-                    layoutManager,
-                    null,
-                    click,
-                    autoCancel,
-                    showIcons
+                0,
+                title,
+                menu,
+                layoutManager,
+                null,
+                click,
+                autoCancel,
+                showIcons,
+                onItemsPrepared
             ).show(context)
         }
 
@@ -179,7 +188,7 @@ open class SheetMenu(
         }
 
         /**
-         * @param title string with text for title
+         * @param text string with text for title
          */
         fun setTitle(text: String): Builder {
             this.title = text
@@ -226,6 +235,11 @@ open class SheetMenu(
 
         fun showIcons(showIcons: Boolean): Builder {
             this.showIcons = showIcons
+            return this
+        }
+
+        fun onItemsPrepared(onItemsPrepared: (List<MenuItem>) -> List<MenuItem>): Builder {
+            this.onItemsPrepared = onItemsPrepared
             return this
         }
     }

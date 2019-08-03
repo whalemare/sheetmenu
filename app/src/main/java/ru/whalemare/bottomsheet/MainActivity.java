@@ -5,6 +5,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
+import kotlin.jvm.functions.Function1;
 import ru.whalemare.sheetmenu.SheetMenu;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,18 +53,24 @@ public class MainActivity extends AppCompatActivity {
     // builder of a smoker
     private void setup2() {
         new SheetMenu(
-                R.string.title,
-                null,
-                R.menu.menu,
-                null, null,
-                new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return false;
-                    }
-                },
-                true,
-                true
+            R.string.title,
+            null,
+            R.menu.menu,
+            null, null,
+            new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return false;
+                }
+            },
+            true,
+            true,
+            new Function1<List<? extends MenuItem>, List<? extends MenuItem>>() {
+                @Override
+                public List<? extends MenuItem> invoke(List<? extends MenuItem> menuItems) {
+                    return menuItems;
+                }
+            }
         ).show(this);
     }
 
