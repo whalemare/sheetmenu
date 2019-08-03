@@ -21,6 +21,7 @@ open class MainActivityKotlin : AppCompatActivity() {
 
     // remove all items where index % 2 == 0
     private val removeEven: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> index % 2 == 0 }}
+    private val removeById: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> menuItem.itemId == R.id.action_one }}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
