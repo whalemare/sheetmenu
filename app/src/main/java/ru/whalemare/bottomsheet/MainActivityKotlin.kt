@@ -15,7 +15,12 @@ open class MainActivityKotlin : AppCompatActivity() {
 
     var needIcons = true
 
+    var removeSomeItems = false
+
     private var sheetMenu: SheetMenu? = null
+
+    // remove all items where index % 2 == 0
+    private val removeEven: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> index % 2 == 0 }}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +31,9 @@ open class MainActivityKotlin : AppCompatActivity() {
 
         (findViewById<CheckBox>(R.id.checkbox_icons))
                 .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
+
+        (findViewById<CheckBox>(R.id.checkbox_dynamic))
+            .setOnCheckedChangeListener { _, isChecked -> removeSomeItems = isChecked }
 
         findViewById<View>(R.id.button_linear).setOnClickListener {
             setupLinear()
@@ -50,6 +58,7 @@ open class MainActivityKotlin : AppCompatActivity() {
             }
             menu = R.menu.menu_icons
             showIcons = needIcons
+            mapMenuItems = if (removeSomeItems) removeEven else { items -> items }
         }
         sheetMenu?.show(this)
     }
@@ -63,7 +72,8 @@ open class MainActivityKotlin : AppCompatActivity() {
                 toast("Click on ${it.title}")
                 true
             },
-            showIcons = needIcons
+            showIcons = needIcons,
+            mapMenuItems = if (removeSomeItems) removeEven else { items -> items }
         )
         sheetMenu?.show(this)
     }

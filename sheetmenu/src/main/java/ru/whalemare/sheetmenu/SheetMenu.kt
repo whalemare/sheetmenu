@@ -27,6 +27,9 @@ import ru.whalemare.sheetmenu.extension.toList
  * @param menu id from resources for auto-inflate menu
  * @param layoutManager for RecyclerView. By default: vertical linear layout manager. If you set this, @param <b>mode</b> is not be used.
  * @param click listener for menu items
+ * @param autoCancel automatically hide menu if user tap on menu item
+ * @param showIcons show icons for menu items
+ * @param mapMenuItems use-full for modify items before render
  */
 open class SheetMenu(
     var titleId: Int = 0,
@@ -36,7 +39,8 @@ open class SheetMenu(
     var adapter: MenuAdapter? = null,
     var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
     var autoCancel: Boolean = true,
-    var showIcons: Boolean = true
+    var showIcons: Boolean = true,
+    var mapMenuItems: (List<MenuItem>) -> List<MenuItem> = { items -> items }
 ) {
     private var dialog: BottomSheetDialog? = null
 
@@ -101,8 +105,9 @@ open class SheetMenu(
             }
 
             if (adapter == null) {
+                val menuItems = recycler.context.inflate(menu).toList()
                 adapter = MenuAdapter(
-                    menuItems = recycler.context.inflate(menu).toList(),
+                    menuItems = mapMenuItems(menuItems),
                     callback = MenuItem.OnMenuItemClickListener {
                         click.onMenuItemClick(it)
                         if (autoCancel) dialog.cancel()
@@ -146,6 +151,7 @@ open class SheetMenu(
         private var click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false }
         private var autoCancel: Boolean = true
         private var showIcons: Boolean = true
+        private var onItemsPrepared: (List<MenuItem>) -> List<MenuItem> = { items -> items }
 
         fun show() {
             SheetMenu(
@@ -156,7 +162,8 @@ open class SheetMenu(
                 null,
                 click,
                 autoCancel,
-                showIcons
+                showIcons,
+                onItemsPrepared
             ).show(context)
         }
 
@@ -216,6 +223,11 @@ open class SheetMenu(
 
         fun showIcons(showIcons: Boolean): Builder {
             this.showIcons = showIcons
+            return this
+        }
+
+        fun onItemsPrepared(onItemsPrepared: (List<MenuItem>) -> List<MenuItem>): Builder {
+            this.onItemsPrepared = onItemsPrepared
             return this
         }
     }
