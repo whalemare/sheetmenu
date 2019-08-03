@@ -20,6 +20,8 @@ import ru.whalemare.sheetmenu.extension.toList
  * Developed with ❤
  * @since 2017
  * @author Anton Vlasov - whalemare
+ * @author Kirill Romanenko - indrih17
+ * @author Hamid SN - hamidsn
  * @param titleId id from resources with text for title. it is more important than common <b>title</b> param
  * @param title string with text for title
  * @param menu id from resources for auto-inflate menu
