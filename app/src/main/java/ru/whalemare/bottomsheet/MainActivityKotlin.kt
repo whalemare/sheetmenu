@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
@@ -20,18 +19,18 @@ open class MainActivityKotlin : AppCompatActivity() {
     private var sheetMenu: SheetMenu? = null
 
     // remove all items where index % 2 == 0
-    private val removeEven: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> index % 2 == 0 }}
-    private val removeById: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> menuItem.itemId == R.id.action_one }}
+    private val removeEven: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> index % 2 == 0 } }
+    private val removeById: (List<MenuItem>) -> List<MenuItem> = { items -> items.filterIndexed { index, menuItem -> menuItem.itemId == R.id.action_one } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         (findViewById<CheckBox>(R.id.checkbox_title))
-                .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
+            .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
 
         (findViewById<CheckBox>(R.id.checkbox_icons))
-                .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
+            .setOnCheckedChangeListener { _, isChecked -> needIcons = isChecked }
 
         (findViewById<CheckBox>(R.id.checkbox_dynamic))
             .setOnCheckedChangeListener { _, isChecked -> removeSomeItems = isChecked }
@@ -66,15 +65,11 @@ open class MainActivityKotlin : AppCompatActivity() {
 
     fun setupGrid() {
         sheetMenu = SheetMenu(
-            titleId = if (needTitle) R.string.title else 0,
-            menu = R.menu.menu_long_icons,
-            layoutManager = GridLayoutManager(this, 3),
-            click = MenuItem.OnMenuItemClickListener {
-                toast("Click on ${it.title}")
-                true
-            },
-            showIcons = needIcons,
-            mapMenuItems = if (removeSomeItems) removeEven else { items -> items }
+            mapMenuItems = { items ->
+                items.filter { menuItem ->
+                    menuItem.itemId == R.id.action_one
+                }
+            }
         )
         sheetMenu?.show(this)
     }
