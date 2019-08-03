@@ -169,7 +169,7 @@ open class SheetMenu(
         }
 
         /**
-         * @param title string with text for title
+         * @param text string with text for title
          */
         fun setTitle(text: String): Builder {
             this.title = text
