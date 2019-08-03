@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="all">
+
+        <item
+            android:id="@+id/action_one"
+            android:icon="@drawable/ic_atom"
+            android:title="One"/>
+        <item
+            android:id="@+id/action_two"
+            android:icon="@drawable/ic_disco"
+            android:title="Two"/>
+        <item
+            android:id="@+id/action_three"
+            android:icon="@drawable/ic_atom"
+            android:title="Three"/>
+    </group>
+    <item
+        android:id="@+id/action_four"
+        android:icon="@drawable/ic_disco"
+        android:title="Four"/>
+    <item
+        android:id="@+id/action_five"
+        android:icon="@drawable/ic_atom"
+        android:title="Five"/>
+    <item
+        android:id="@+id/action_six"
+        android:icon="@drawable/ic_disco"
+        android:title="Six"/>
+    <item
+        android:id="@+id/action_seven"
+        android:icon="@drawable/ic_atom"
+        android:title="Seven"/>
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_disco"
+        android:title="More"/>
+</menu>

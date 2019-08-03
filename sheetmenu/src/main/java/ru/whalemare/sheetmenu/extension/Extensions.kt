@@ -1,13 +1,14 @@
 package ru.whalemare.sheetmenu.extension
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.support.annotation.MenuRes
-import android.support.v7.view.SupportMenuInflater
-import android.support.v7.view.menu.MenuBuilder
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.SupportMenuInflater
+import androidx.appcompat.view.menu.MenuBuilder
 
 
 /**
@@ -17,10 +18,11 @@ import android.view.ViewGroup
  */
 fun Menu.toList(): List<MenuItem> {
     val menuItems = ArrayList<MenuItem>(this.size())
-    (0..this.size() - 1).mapTo(menuItems) { this.getItem(it) }
+    (0 until this.size()).mapTo(menuItems) { this.getItem(it) }
     return menuItems
 }
 
+@SuppressLint("RestrictedApi")
 fun Context.inflate(@MenuRes menuRes: Int): Menu {
     val menu = MenuBuilder(this)
     val menuInflater = SupportMenuInflater(this)
@@ -39,4 +41,5 @@ fun View.marginTop(dp: Int) {
     this.layoutParams = params
 }
 
-fun dp2px(context: Context, dp: Int): Int = (dp * context.resources.displayMetrics.density + 0.5).toInt()
+fun dp2px(context: Context, dp: Int): Int =
+    (dp * context.resources.displayMetrics.density + 0.5).toInt()

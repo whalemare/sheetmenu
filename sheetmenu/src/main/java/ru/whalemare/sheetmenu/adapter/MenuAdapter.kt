@@ -1,10 +1,10 @@
 package ru.whalemare.sheetmenu.adapter
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import ru.whalemare.sheetmenu.R
 import ru.whalemare.sheetmenu.extension.toList
 
@@ -13,14 +13,20 @@ import ru.whalemare.sheetmenu.extension.toList
  * @since 2017
  * @author Anton Vlasov - whalemare
  */
-open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
-                       var callback: MenuItem.OnMenuItemClickListener? = null,
-                       var itemLayoutId: Int = 0)
-    : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+open class MenuAdapter(
+    var menuItems: List<MenuItem> = emptyList(),
+    var callback: MenuItem.OnMenuItemClickListener? = null,
+    var itemLayoutId: Int = 0,
+    var showIcons: Boolean = true
+) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     companion object {
-        fun with(itemLayoutId: Int, menu: Menu): MenuAdapter {
-            return MenuAdapter(menuItems = menu.toList(), itemLayoutId = itemLayoutId)
+        fun with(itemLayoutId: Int, menu: Menu, showIcons: Boolean): MenuAdapter {
+            return MenuAdapter(
+                menuItems = menu.toList(),
+                itemLayoutId = itemLayoutId,
+                showIcons = showIcons
+            )
         }
     }
 
@@ -37,6 +43,16 @@ open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = menuItems[position]
 
+        if (showIcons) {
+            if (item.icon == null) {
+                holder.imageIcon.visibility = View.GONE
+            } else {
+                holder.imageIcon.visibility = View.VISIBLE
+            }
+        } else {
+            holder.imageIcon.visibility = View.GONE
+        }
+
         holder.imageIcon.setImageDrawable(item.icon)
         holder.textTitle.text = item.title
         holder.itemView.setOnClickListener {
@@ -48,8 +64,8 @@ open class MenuAdapter(var menuItems: List<MenuItem> = emptyList(),
         return menuItems.size
     }
 
-    open class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        var imageIcon: ImageView = itemView?.findViewById(R.id.image_icon) as ImageView
-        var textTitle: TextView = itemView?.findViewById(R.id.text_title) as TextView
+    open class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var imageIcon: ImageView = itemView.findViewById(R.id.image_icon) as ImageView
+        var textTitle: TextView = itemView.findViewById(R.id.text_title) as TextView
     }
 }
