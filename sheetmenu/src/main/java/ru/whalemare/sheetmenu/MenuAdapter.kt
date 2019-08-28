@@ -1,4 +1,4 @@
-package ru.whalemare.sheetmenu.adapter
+package ru.whalemare.sheetmenu
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import ru.whalemare.sheetmenu.ActionItem
-import ru.whalemare.sheetmenu.R
 
 /**
  * Developed with ❤

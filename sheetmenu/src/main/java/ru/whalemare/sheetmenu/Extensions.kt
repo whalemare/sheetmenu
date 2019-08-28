@@ -1,4 +1,4 @@
-package ru.whalemare.sheetmenu.extension
+package ru.whalemare.sheetmenu
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.annotation.MenuRes
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
-import ru.whalemare.sheetmenu.ActionItem
 
 /**
  * Developed by Magora-Systems.com

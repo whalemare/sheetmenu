@@ -13,10 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import ru.whalemare.sheetmenu.adapter.MenuAdapter
-import ru.whalemare.sheetmenu.extension.inflate
-import ru.whalemare.sheetmenu.extension.marginTop
-import ru.whalemare.sheetmenu.extension.toList
 import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
 
 /**
