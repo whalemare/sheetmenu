@@ -90,10 +90,6 @@ open class SheetMenu(
             dialog.dismiss()
         }, layoutProvider.provideItemLayoutRes(), showIcons)
 
-        if (textTitle.visibility != View.VISIBLE && recycler.layoutManager is GridLayoutManager) {
-            root.marginTop(24)
-        }
-
         root.viewTreeObserver.addOnGlobalLayoutListener {
             val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
