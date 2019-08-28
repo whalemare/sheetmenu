@@ -48,11 +48,6 @@ open class SheetMenu(
                 showIcons: Boolean = true
     ): this(title, context.inflate(menu).toList(), onClick, onCancel, layoutProvider, showIcons)
 
-    fun mapMenuToActionItems(@MenuRes menu: Int) {
-        val items = mutableListOf<ActionItem>()
-
-    }
-
     fun show(context: Context) {
         if (context is LifecycleOwner) {
             show(context, context.lifecycle)
@@ -99,8 +94,8 @@ open class SheetMenu(
         root.viewTreeObserver.addOnGlobalLayoutListener {
             val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = 0
+            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            behavior.peekHeight = -1
         }
         dialog.show()
         return dialog

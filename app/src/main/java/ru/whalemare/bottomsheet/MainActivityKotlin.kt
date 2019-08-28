@@ -1,12 +1,10 @@
 package ru.whalemare.bottomsheet
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.whalemare.sheetmenu.ActionItem
 import ru.whalemare.sheetmenu.SheetMenu
@@ -79,7 +77,7 @@ open class MainActivityKotlin : AppCompatActivity() {
         val size = if (needLong) 20 else 5
         return (0..size).map { index ->
             val image = if (needIcons) getRandomIcon() else null
-            return@map ActionItem("Title ${index}", image)
+            return@map ActionItem(index, "Title $index", image)
         }
     }
 
@@ -88,8 +86,4 @@ open class MainActivityKotlin : AppCompatActivity() {
         return resources.getDrawable(icons.random())
     }
 
-}
-
-fun Context.toast(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

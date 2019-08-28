@@ -19,7 +19,7 @@ fun Menu.toList(): List<ActionItem> {
     val menuItems = ArrayList<ActionItem>(this.size())
     (0 until this.size()).mapTo(menuItems) {
         val item = this.getItem(it)
-        return@mapTo ActionItem(item.title, item.icon, item.itemId)
+        return@mapTo ActionItem(item.itemId, item.title, item.icon)
     }
     return menuItems
 }
