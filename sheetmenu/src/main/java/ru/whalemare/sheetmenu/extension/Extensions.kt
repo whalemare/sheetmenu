@@ -2,7 +2,6 @@ package ru.whalemare.sheetmenu.extension
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,10 +9,6 @@ import android.view.ViewGroup
 import androidx.annotation.MenuRes
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.RecyclerView
-import ru.whalemare.sheetmenu.SheetMenu
-import ru.whalemare.sheetmenu.adapter.MenuAdapter
 
 /**
  * Developed by Magora-Systems.com
@@ -48,29 +43,29 @@ fun View.marginTop(dp: Int) {
 fun dp2px(context: Context, dp: Int): Int =
     (dp * context.resources.displayMetrics.density + 0.5).toInt()
 
-fun Context.showSheetMenu(
-    lifecycle: Lifecycle,
-    titleId: Int = 0,
-    title: String? = "",
-    menu: Int = 0,
-    layoutManager: RecyclerView.LayoutManager? = null,
-    adapter: MenuAdapter? = null,
-    click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
-    autoCancel: Boolean = true,
-    showIcons: Boolean = true,
-    onDismissListener: DialogInterface.OnDismissListener? = null,
-    onCancelListener: DialogInterface.OnCancelListener? = null
-) = SheetMenu(
-    titleId = titleId,
-    title = title,
-    menu = menu,
-    layoutManager = layoutManager,
-    adapter = adapter,
-    click = click,
-    autoCancel = autoCancel,
-    showIcons = showIcons,
-    onDismissListener = onDismissListener,
-    onCancelListener = onCancelListener
-).also {
-    it.show(this, lifecycle)
-}
+//fun Context.showSheetMenu(
+//    lifecycle: Lifecycle,
+//    titleId: Int = 0,
+//    title: String? = "",
+//    menu: Int = 0,
+//    layoutManager: RecyclerView.LayoutManager? = null,
+//    adapter: MenuAdapter? = null,
+//    click: MenuItem.OnMenuItemClickListener = MenuItem.OnMenuItemClickListener { false },
+//    autoCancel: Boolean = true,
+//    showIcons: Boolean = true,
+//    onDismissListener: DialogInterface.OnDismissListener? = null,
+//    onCancelListener: DialogInterface.OnCancelListener? = null
+//) = SheetMenu(
+//    titleId = titleId,
+//    title = title,
+//    menu = menu,
+//    layoutManager = layoutManager,
+//    adapter = adapter,
+//    click = click,
+//    autoCancel = autoCancel,
+//    showIcons = showIcons,
+//    onDismissListener = onDismissListener,
+//    onCancelListener = onCancelListener
+//).also {
+//    it.show(this, lifecycle)
+//}

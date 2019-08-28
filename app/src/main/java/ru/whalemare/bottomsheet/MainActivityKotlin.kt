@@ -1,15 +1,12 @@
 package ru.whalemare.bottomsheet
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
+import ru.whalemare.sheetmenu.ActionItem
 import ru.whalemare.sheetmenu.SheetMenu
 
 open class MainActivityKotlin : AppCompatActivity() {
@@ -39,42 +36,32 @@ open class MainActivityKotlin : AppCompatActivity() {
     }
 
     fun setupLinear() {
-        sheetMenu = SheetMenu().apply {
-            titleId = if (needTitle) R.string.title else 0
-            click = MenuItem.OnMenuItemClickListener {
-                toast("Click on ${it.title}")
-                true
-            }
-            menu = R.menu.menu_icons
-            showIcons = needIcons
-            onDismissListener = DialogInterface.OnDismissListener {
-                Log.e("SheetMenu", "Dismiss")
-            }
-            onCancelListener = DialogInterface.OnCancelListener {
-                Log.e("SheetMenu", "Cancel")
-            }
-        }
+        sheetMenu = SheetMenu("Title", listOf(
+            ActionItem("Item 1"),
+            ActionItem("Item 2"),
+            ActionItem("Item 3")
+        ))
         sheetMenu?.show(this, lifecycle)
     }
 
     fun setupGrid() {
-        sheetMenu = SheetMenu(
-            titleId = if (needTitle) R.string.title else 0,
-            menu = R.menu.menu_long_icons,
-            layoutManager = GridLayoutManager(this, 3),
-            click = MenuItem.OnMenuItemClickListener {
-                toast("Click on ${it.title}")
-                true
-            },
-            showIcons = needIcons,
-            onDismissListener = DialogInterface.OnDismissListener {
-                Log.e("SheetMenu", "Dismiss")
-            },
-            onCancelListener = DialogInterface.OnCancelListener {
-                Log.e("SheetMenu", "Cancel")
-            }
-        )
-        sheetMenu?.show(this, lifecycle)
+//        sheetMenu = SheetMenu(
+//            titleId = if (needTitle) R.string.title else 0,
+//            menu = R.menu.menu_long_icons,
+//            layoutManager = GridLayoutManager(this, 3),
+//            click = MenuItem.OnMenuItemClickListener {
+//                toast("Click on ${it.title}")
+//                true
+//            },
+//            showIcons = needIcons,
+//            onDismissListener = DialogInterface.OnDismissListener {
+//                Log.e("SheetMenu", "Dismiss")
+//            },
+//            onCancelListener = DialogInterface.OnCancelListener {
+//                Log.e("SheetMenu", "Cancel")
+//            }
+//        )
+//        sheetMenu?.show(this, lifecycle)
     }
 }
 
