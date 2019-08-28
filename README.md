@@ -14,43 +14,18 @@ Use it in Kotlin
 SheetMenu("Post", listOf("Send mail", "Send telegram", "Receive parcel")).show(this)
 ```
 
-or in Java like `Kotlin`
-
-```java
-new SheetMenu().apply(it -> {
-    it.setMenu(R.menu.menu_icons);
-    it.setTitle("Title");
-    it.setAutoCancel(true); 
-}).show(this);
-```
-
-or with classic `Builder` pattern 
-
-```java
-SheetMenu.with(this)
-        .setTitle(R.string.title)
-        .setMenu(R.menu.menu)
-        .setAutoCancel(false)
-        .setClick(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        }).show();
-```
-
-Usecase
--------
-
-Dynamic remove items from list before show it
+Apply not required params for more customization
 ```kotlin
 SheetMenu(
-    menu = R.menu.menu
-    mapMenuItems = { items ->
-        items.filter { menuItem ->
-            menuItem.itemId == R.id.some_action
-        }
-    }
+    title = "Post",
+    menu = R.menu.my_custom_menu, // you can just pass menu resource if you need static items
+//  actions = listOf(ActionItem(id = 0, title = "Send mail", image = getDrawableIcon())), // or create ActionItem when you need dynamic titles of icons
+//  actions = listOf("Send mail", "Send telegram", "Receive parcel"), // also, you can simplify it by passing strings for showing only text of items
+    layoutProvider = LinearLayoutProvider(), // linear layout enabled by default
+//  layoutProvider = GridLayoutProvider() // but you need grid, you can do it
+//  layoutProvider = object: LayoutProvider { ... } // also, you can define your own layout
+    onClick = { item -> Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show() }, // handle clicks on item
+    onCancel = { Toast.makeText(this, "Closed", Toast.LENGTH_SHORT).show() } // handle close event
 ).show(this)
 ```
 
@@ -71,9 +46,12 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```diff
-+ implementation 'com.github.whalemare:sheetmenu:1.4.0'
+implementation 'com.github.whalemare:sheetmenu:2.0.0'
 ```
 
+Roadmap
+-------
+[] Customization layout of ActionItem
 
 License
 -------

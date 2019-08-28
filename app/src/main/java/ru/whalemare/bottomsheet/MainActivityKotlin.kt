@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.whalemare.sheetmenu.ActionItem
 import ru.whalemare.sheetmenu.SheetMenu
@@ -58,9 +59,14 @@ open class MainActivityKotlin : AppCompatActivity() {
     fun setupGrid() {
         SheetMenu(
             title = getSheetTitle(),
-            items = getSheetItems(),
-            layoutProvider = GridLayoutProvider()
+            actions = getSheetItems(),
+            layoutProvider = GridLayoutProvider(),
+            onClick = { item -> Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show() }
         ).show(this)
+    }
+
+    fun toast(text: CharSequence) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
     fun setupMenuRes() {

@@ -26,7 +26,7 @@ import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
  */
 open class SheetMenu(
     private val title: String? = null,
-    private val items: List<ActionItem> = emptyList(),
+    private val actions: List<ActionItem> = emptyList(),
     private val onClick: ((ActionItem) -> Unit)? = null,
     private val onCancel: (() -> Unit)? = null,
     private val layoutProvider: LayoutProvider = LinearLayoutProvider(),
@@ -85,7 +85,7 @@ open class SheetMenu(
         this.dialog = dialog
 
         recycler.layoutManager = layoutProvider.provideLayoutManager(context)
-        recycler.adapter = MenuAdapter(items, {
+        recycler.adapter = MenuAdapter(actions, {
             onClick?.invoke(it)
             dialog.dismiss()
         }, layoutProvider.provideItemLayoutRes(), showIcons)
