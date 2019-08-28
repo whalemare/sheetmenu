@@ -3,11 +3,11 @@ package ru.whalemare.sheetmenu
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -26,35 +26,40 @@ import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
  * @param click listener for menu items
  */
 open class SheetMenu(
-    val title: String? = null,
-    val items: List<ActionItem> = emptyList(),
-    val onClick: ((ActionItem) -> Unit)? = null,
-    val onCancel: (() -> Unit)? = null,
-    val layoutProvider: LayoutProvider = LinearLayoutProvider()
+    private val title: String? = null,
+    private val items: List<ActionItem> = emptyList(),
+    private val onClick: ((ActionItem) -> Unit)? = null,
+    private val onCancel: (() -> Unit)? = null,
+    private val layoutProvider: LayoutProvider = LinearLayoutProvider(),
+    private val showIcons: Boolean = true
 ) {
-    protected var dialog: BottomSheetDialog? = null
-    protected var dialogLifecycleObserver: DialogLifecycleObserver? = null
+    var dialog: BottomSheetDialog? = null
+    private var dialogLifecycleObserver: DialogLifecycleObserver? = null
 
-    fun show(context: Context, lifecycle: Lifecycle) {
+    protected fun bindLifecycle(dialog: BottomSheetDialog, lifecycle: Lifecycle): DialogLifecycleObserver {
         dialogLifecycleObserver?.let {
             lifecycle.removeObserver(it)
         }
-        val dialog = showDialog(context)
         dialogLifecycleObserver = DialogLifecycleObserver(dialog).also {
             lifecycle.addObserver(it)
         }
+        return dialogLifecycleObserver!!
     }
 
-    @Deprecated(
-        message = "Use show(context: Context, lifecycle: Lifecycle)",
-        replaceWith = ReplaceWith("show(context, lifecycle)")
-    )
     fun show(context: Context) {
-        showDialog(context)
+        if (context is LifecycleOwner) {
+            show(context, context.lifecycle)
+        }
+    }
+
+    fun show(context: Context, lifecycle: Lifecycle? = null) {
+        val dialog = createDialog(context)
+        lifecycle?.let { bindLifecycle(dialog, lifecycle) }
+        dialog.show()
     }
 
     @SuppressLint("InflateParams")
-    open fun showDialog(context: Context): BottomSheetDialog {
+    open fun createDialog(context: Context): BottomSheetDialog {
         val root = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_horizontal_list, null)
         val textTitle: TextView = root.findViewById(R.id.text_title)
         val recycler: RecyclerView = root.findViewById(R.id.recycler_view)
@@ -69,43 +74,18 @@ open class SheetMenu(
         val dialog = BottomSheetDialog(context).apply {
             setContentView(root)
             if (onCancel != null) {
-//                setOnDismissListener{ onCancel?.invoke() }
                 setOnCancelListener { onCancel.invoke() }
             }
         }
         this.dialog = dialog
 
-
         recycler.layoutManager = layoutProvider.provideLayoutManager(context)
         recycler.adapter = MenuAdapter(items, {
             onClick?.invoke(it)
             dialog.dismiss()
-        }, layoutProvider.provideItemLayoutRes())
+        }, layoutProvider.provideItemLayoutRes(), showIcons)
 
-//        if (menu > 0) {
-//            recycler.adapter = adapter
-//                    ?: MenuAdapter(
-//                        menuItems = recycler.context.inflate(menu).toList(),
-//                        callback = MenuItem.OnMenuItemClickListener {
-//                            click.onMenuItemClick(it)
-//                            if (autoCancel) dialog.cancel()
-//                            true
-//                        },
-//                        itemLayoutId = if (layoutManager is GridLayoutManager)
-//                            R.layout.item_grid
-//                        else
-//                            R.layout.item_linear,
-//                        showIcons = showIcons
-//                    )
-//                        .also { this.adapter = it }
-//
-//            recycler.layoutManager = layoutManager
-//                    ?: LinearLayoutManager(recycler.context, RecyclerView.VERTICAL, false)
-//                        .also { this.layoutManager = it }
-//        }
-
-
-        if (textTitle.visibility == View.VISIBLE && recycler.layoutManager is GridLayoutManager) {
+        if (textTitle.visibility != View.VISIBLE && recycler.layoutManager is GridLayoutManager) {
             root.marginTop(24)
         }
 
@@ -118,41 +98,5 @@ open class SheetMenu(
         dialog.show()
         return dialog
     }
-
-    open fun dismiss() {
-        dialog?.dismiss()
-        dialog = null
-    }
-
-    open fun cancel() {
-        dialog?.cancel()
-        dialog = null
-    }
-
-    protected open fun processClick(
-        dialog: BottomSheetDialog,
-        click: MenuItem.OnMenuItemClickListener,
-        autoCancel: Boolean
-    ): MenuItem.OnMenuItemClickListener {
-        return if (autoCancel) {
-            MenuItem.OnMenuItemClickListener {
-                click.onMenuItemClick(it)
-                dialog.cancel()
-                true
-            }
-        } else {
-            click
-        }
-    }
-
-    fun apply(action: ActionSingle<SheetMenu>): SheetMenu {
-        action.call(this)
-        return this
-    }
-
-    interface ActionSingle<in T> {
-        fun call(it: T)
-    }
-    //endregion
 }
 
