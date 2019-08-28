@@ -22,7 +22,7 @@ SheetMenu(
 //  actions = listOf(ActionItem(id = 0, title = "Send mail", image = getDrawableIcon())), // or create ActionItem when you need dynamic titles of icons
 //  actions = listOf("Send mail", "Send telegram", "Receive parcel"), // also, you can simplify it by passing strings for showing only text of items
     layoutProvider = LinearLayoutProvider(), // linear layout enabled by default
-//  layoutProvider = GridLayoutProvider() // but you need grid, you can do it
+//  layoutProvider = GridLayoutProvider() // but if you need grid, you can do it
 //  layoutProvider = object: LayoutProvider { ... } // also, you can define your own layout
     onClick = { item -> Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show() }, // handle clicks on item
     onCancel = { Toast.makeText(this, "Closed", Toast.LENGTH_SHORT).show() } // handle close event
