@@ -43,7 +43,7 @@ allprojects {
 }
 ```
 
-Include dependency with `BottomSheet` in your app.gradle file with:
+Include dependency with `SheetMenu` in your app.gradle file with:
 
 ```diff
 implementation 'com.github.whalemare:sheetmenu:2.0.0'
