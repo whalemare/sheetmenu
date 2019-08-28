@@ -35,6 +35,13 @@ open class SheetMenu(
     var dialog: BottomSheetDialog? = null
     private var dialogLifecycleObserver: DialogLifecycleObserver? = null
 
+    constructor(title: String? = null,
+                actions: Iterable<String> = emptyList(),
+                onClick: ((ActionItem) -> Unit)? = null,
+                onCancel: (() -> Unit)? = null,
+                layoutProvider: LayoutProvider = LinearLayoutProvider()
+    ): this(title, actions.mapIndexed { index, item -> ActionItem(index, item, null) }, onClick, onCancel, layoutProvider, false)
+
     constructor(context: Context,
                 @MenuRes menu: Int,
                 title: String? = null,
@@ -106,6 +113,4 @@ open class SheetMenu(
         }
         return dialogLifecycleObserver!!
     }
-
 }
-

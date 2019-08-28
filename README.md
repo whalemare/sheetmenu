@@ -8,16 +8,10 @@ Library for speedy implementation menu with BottomSheet
 Usage
 -----
 
-Use it in Kotlin with `apply` extension
+Use it in Kotlin
 
 ```kotlin
-SheetMenu().apply {
-    titleId = R.string.title
-    click = MenuItem.OnMenuItemClickListener { true }
-    menu = R.menu.menu
-    autoCancel = false // true, by default
-    showIcons = false // true, by default
-}.show(this)
+SheetMenu("Post", listOf("Send mail", "Send telegram", "Receive parcel")).show(this)
 ```
 
 or in Java like `Kotlin`

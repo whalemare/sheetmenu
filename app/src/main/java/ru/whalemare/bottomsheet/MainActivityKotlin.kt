@@ -71,6 +71,10 @@ open class MainActivityKotlin : AppCompatActivity() {
         ).show(this)
     }
 
+    fun setupJustTitles() {
+        SheetMenu("Post", listOf("Send mail", "Send telegram", "Receive parcel")).show(this)
+    }
+
     fun getSheetTitle() = if (needTitle) "Title" else null
 
     fun getSheetItems(): List<ActionItem>  {
