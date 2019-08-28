@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
  * @author Anton Vlasov - whalemare
  */
 data class ActionItem(
-    val title: String,
-    val id: String? = null,
-    val image: Drawable? = null
+    val title: CharSequence,
+    val image: Drawable? = null,
+    val id: Int? = null
 )

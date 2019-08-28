@@ -3,21 +3,24 @@ package ru.whalemare.sheetmenu.extension
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.MenuRes
 import androidx.appcompat.view.SupportMenuInflater
 import androidx.appcompat.view.menu.MenuBuilder
+import ru.whalemare.sheetmenu.ActionItem
 
 /**
  * Developed by Magora-Systems.com
  * @since 2017
  * @author Anton Vlasov - whalemare
  */
-fun Menu.toList(): List<MenuItem> {
-    val menuItems = ArrayList<MenuItem>(this.size())
-    (0 until this.size()).mapTo(menuItems) { this.getItem(it) }
+fun Menu.toList(): List<ActionItem> {
+    val menuItems = ArrayList<ActionItem>(this.size())
+    (0 until this.size()).mapTo(menuItems) {
+        val item = this.getItem(it)
+        return@mapTo ActionItem(item.title, item.icon, item.itemId)
+    }
     return menuItems
 }
 

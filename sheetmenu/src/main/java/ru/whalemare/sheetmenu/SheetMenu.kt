@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.MenuRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.whalemare.sheetmenu.adapter.MenuAdapter
+import ru.whalemare.sheetmenu.extension.inflate
 import ru.whalemare.sheetmenu.extension.marginTop
+import ru.whalemare.sheetmenu.extension.toList
 import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
 
 /**
@@ -36,14 +39,18 @@ open class SheetMenu(
     var dialog: BottomSheetDialog? = null
     private var dialogLifecycleObserver: DialogLifecycleObserver? = null
 
-    protected fun bindLifecycle(dialog: BottomSheetDialog, lifecycle: Lifecycle): DialogLifecycleObserver {
-        dialogLifecycleObserver?.let {
-            lifecycle.removeObserver(it)
-        }
-        dialogLifecycleObserver = DialogLifecycleObserver(dialog).also {
-            lifecycle.addObserver(it)
-        }
-        return dialogLifecycleObserver!!
+    constructor(context: Context,
+                @MenuRes menu: Int,
+                title: String? = null,
+                onClick: ((ActionItem) -> Unit)? = null,
+                onCancel: (() -> Unit)? = null,
+                layoutProvider: LayoutProvider = LinearLayoutProvider(),
+                showIcons: Boolean = true
+    ): this(title, context.inflate(menu).toList(), onClick, onCancel, layoutProvider, showIcons)
+
+    fun mapMenuToActionItems(@MenuRes menu: Int) {
+        val items = mutableListOf<ActionItem>()
+
     }
 
     fun show(context: Context) {
@@ -98,5 +105,16 @@ open class SheetMenu(
         dialog.show()
         return dialog
     }
+
+    protected open fun bindLifecycle(dialog: BottomSheetDialog, lifecycle: Lifecycle): DialogLifecycleObserver {
+        dialogLifecycleObserver?.let {
+            lifecycle.removeObserver(it)
+        }
+        dialogLifecycleObserver = DialogLifecycleObserver(dialog).also {
+            lifecycle.addObserver(it)
+        }
+        return dialogLifecycleObserver!!
+    }
+
 }
 
