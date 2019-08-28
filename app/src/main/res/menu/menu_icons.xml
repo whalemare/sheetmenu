@@ -32,7 +32,27 @@
         android:icon="@drawable/ic_atom"
         android:title="Seven"/>
     <item
-        android:id="@+id/action_more"
+        android:id="@+id/action_8"
         android:icon="@drawable/ic_disco"
+        android:title="Eight"/>
+    <item
+        android:id="@+id/action_9"
+        android:icon="@drawable/ic_atom"
+        android:title="Nine"/>
+    <item
+        android:id="@+id/action_10"
+        android:icon="@drawable/ic_disco"
+        android:title="Ten"/>
+    <item
+        android:id="@+id/action_11"
+        android:icon="@drawable/ic_atom"
+        android:title="Eleven"/>
+    <item
+        android:id="@+id/action_12"
+        android:icon="@drawable/ic_disco"
+        android:title="Twelve"/>
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_atom"
         android:title="More"/>
 </menu>

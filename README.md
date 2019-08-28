@@ -11,38 +11,53 @@ Usage
 Use it in Kotlin with `apply` extension
 
 ```kotlin
-        SheetMenu().apply {
-            titleId = R.string.title
-            click = MenuItem.OnMenuItemClickListener { true }
-            menu = R.menu.menu
-            autoCancel = false // true, by default
-            showIcons = false // true, by default
-        }.show(this)
+SheetMenu().apply {
+    titleId = R.string.title
+    click = MenuItem.OnMenuItemClickListener { true }
+    menu = R.menu.menu
+    autoCancel = false // true, by default
+    showIcons = false // true, by default
+}.show(this)
 ```
 
 or in Java like `Kotlin`
 
 ```java
-        new SheetMenu().apply(it -> {
-            it.setMenu(R.menu.menu_icons);
-            it.setTitle("Title");
-            it.setAutoCancel(true); 
-        }).show(this);
+new SheetMenu().apply(it -> {
+    it.setMenu(R.menu.menu_icons);
+    it.setTitle("Title");
+    it.setAutoCancel(true); 
+}).show(this);
 ```
 
 or with classic `Builder` pattern 
 
 ```java
-        SheetMenu.with(this)
-                .setTitle(R.string.title)
-                .setMenu(R.menu.menu)
-                .setAutoCancel(false)
-                .setClick(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return false;
-                    }
-                }).show();
+SheetMenu.with(this)
+        .setTitle(R.string.title)
+        .setMenu(R.menu.menu)
+        .setAutoCancel(false)
+        .setClick(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        }).show();
+```
+
+Usecase
+-------
+
+Dynamic remove items from list before show it
+```kotlin
+SheetMenu(
+    menu = R.menu.menu
+    mapMenuItems = { items ->
+        items.filter { menuItem ->
+            menuItem.itemId == R.id.some_action
+        }
+    }
+).show(this)
 ```
 
 Install
@@ -62,7 +77,7 @@ allprojects {
 Include dependency with `BottomSheet` in your app.gradle file with:
 
 ```diff
-+ implementation 'com.github.whalemare:sheetmenu:1.3.6'
++ implementation 'com.github.whalemare:sheetmenu:1.4.0'
 ```
 
 
