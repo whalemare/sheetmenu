@@ -46,7 +46,7 @@ allprojects {
 Include dependency with `SheetMenu` in your app.gradle file with:
 
 ```diff
-implementation 'com.github.whalemare:sheetmenu:2.0.0'
+implementation 'com.github.whalemare:sheetmenu:2.0.1'
 ```
 
 Roadmap
