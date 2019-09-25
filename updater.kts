@@ -23,22 +23,22 @@ class App {
     val versionNameVariable = "app_version"
 
     val parameters = listOf(
-            "major",
-            "minor",
-            "patch",
-            "ignore"
+        "major",
+        "minor",
+        "patch",
+        "ignore"
     )
 
     fun main() {
         val map = getVariables()
         val value = map[versionNameVariable] ?: ""
 
-        if (!value.isNullOrEmpty()) {
+        if (value.isNotEmpty()) {
             ask("What you what update: $parameters ?").let {
 
                 val mass: MutableList<String> = value.split(".") as MutableList<String>
 
-                when(it.toLowerCase()) {
+                when (it.toLowerCase()) {
                     parameters[0] -> mass[0] = (mass[0].toInt() + 1).toString()
                     parameters[1] -> mass[1] = (mass[1].toInt() + 1).toString()
                     parameters[2] -> mass[2] = (mass[2].toInt() + 1).toString()
@@ -53,8 +53,10 @@ class App {
             }
 
         } else {
-            println("Can`t find $versionNameVariable in your gradle.file, and can`t auto update your version. " +
-                    "Only readme")
+            println(
+                "Can`t find $versionNameVariable in your gradle.file, and can`t auto update your version. " +
+                        "Only readme"
+            )
         }
 
         val writer = PrintWriter("README.md", "UTF-8")

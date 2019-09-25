@@ -19,8 +19,6 @@ open class MenuAdapter(
     var itemLayoutId: Int = 0,
     var showIcons: Boolean = true
 ) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
         return ViewHolder(view)

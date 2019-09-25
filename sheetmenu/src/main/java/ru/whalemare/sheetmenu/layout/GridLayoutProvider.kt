@@ -20,9 +20,6 @@ class GridLayoutProvider(
         return GridLayoutManager(context, spanCount, orientation, reverseLayout)
     }
 
-    override fun provideItemLayoutRes(): Int {
-        return R.layout.item_grid
-    }
-
-
+    override fun provideItemLayoutRes(): Int =
+        R.layout.item_grid
 }
