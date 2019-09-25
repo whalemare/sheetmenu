@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/sheetmenu.iml" filepath="$PROJECT_DIR$/sheetmenu.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/sheetmenu.iml" filepath="$PROJECT_DIR$/.idea/sheetmenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/sheetmenu/sheetmenu-sheetmenu.iml" filepath="$PROJECT_DIR$/sheetmenu/sheetmenu-sheetmenu.iml" />
     </modules>
   </component>

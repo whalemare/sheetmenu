@@ -19,9 +19,6 @@ import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
  * @since 2017
  * @author Anton Vlasov - whalemare
  * @param title string with text for title
- * @param menu id from resources for auto-inflate menu
- * @param layoutManager for RecyclerView. By default: vertical linear layout manager. If you set this, @param <b>mode</b> is not be used.
- * @param click listener for menu items
  */
 open class SheetMenu(
     private val title: String? = null,
@@ -32,23 +29,34 @@ open class SheetMenu(
     private val showIcons: Boolean = true
 ) {
     var dialog: BottomSheetDialog? = null
+        private set
+
     private var dialogLifecycleObserver: DialogLifecycleObserver? = null
 
-    constructor(title: String? = null,
-                actions: Iterable<String> = emptyList(),
-                onClick: ((ActionItem) -> Unit)? = null,
-                onCancel: (() -> Unit)? = null,
-                layoutProvider: LayoutProvider = LinearLayoutProvider()
-    ): this(title, actions.mapIndexed { index, item -> ActionItem(index, item, null) }, onClick, onCancel, layoutProvider, false)
+    constructor(
+        title: String? = null,
+        actions: Iterable<String> = emptyList(),
+        onClick: ((ActionItem) -> Unit)? = null,
+        onCancel: (() -> Unit)? = null,
+        layoutProvider: LayoutProvider = LinearLayoutProvider()
+    ) : this(
+        title,
+        actions.mapIndexed { index, item -> ActionItem(index, item, null) },
+        onClick,
+        onCancel,
+        layoutProvider,
+        false
+    )
 
-    constructor(context: Context,
-                @MenuRes menu: Int,
-                title: String? = null,
-                onClick: ((ActionItem) -> Unit)? = null,
-                onCancel: (() -> Unit)? = null,
-                layoutProvider: LayoutProvider = LinearLayoutProvider(),
-                showIcons: Boolean = true
-    ): this(title, context.inflate(menu).toList(), onClick, onCancel, layoutProvider, showIcons)
+    constructor(
+        context: Context,
+        @MenuRes menu: Int,
+        title: String? = null,
+        onClick: ((ActionItem) -> Unit)? = null,
+        onCancel: (() -> Unit)? = null,
+        layoutProvider: LayoutProvider = LinearLayoutProvider(),
+        showIcons: Boolean = true
+    ) : this(title, context.inflate(menu).toList(), onClick, onCancel, layoutProvider, showIcons)
 
     fun show(context: Context) {
         if (context is LifecycleOwner) {
@@ -84,13 +92,19 @@ open class SheetMenu(
         this.dialog = dialog
 
         recycler.layoutManager = layoutProvider.provideLayoutManager(context)
-        recycler.adapter = MenuAdapter(actions, {
-            onClick?.invoke(it)
-            dialog.dismiss()
-        }, layoutProvider.provideItemLayoutRes(), showIcons)
+        recycler.adapter = MenuAdapter(
+            menuItems = actions,
+            onClick = {
+                onClick?.invoke(it)
+                dialog.dismiss()
+            },
+            itemLayoutId = layoutProvider.provideItemLayoutRes(),
+            showIcons = showIcons
+        )
 
         root.viewTreeObserver.addOnGlobalLayoutListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             behavior.peekHeight = -1
@@ -99,13 +113,16 @@ open class SheetMenu(
         return dialog
     }
 
-    protected open fun bindLifecycle(dialog: BottomSheetDialog, lifecycle: Lifecycle): DialogLifecycleObserver {
+    protected open fun bindLifecycle(
+        dialog: BottomSheetDialog,
+        lifecycle: Lifecycle
+    ): DialogLifecycleObserver {
         dialogLifecycleObserver?.let {
             lifecycle.removeObserver(it)
         }
-        dialogLifecycleObserver = DialogLifecycleObserver(dialog).also {
+        return DialogLifecycleObserver(dialog).also {
             lifecycle.addObserver(it)
+            dialogLifecycleObserver = it
         }
-        return dialogLifecycleObserver!!
     }
 }

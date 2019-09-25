@@ -2,15 +2,15 @@
 
 buildscript {
     ext.kotlin_version = '1.3.50'
-    ext.app_version = "2.0.0"
+    ext.app_version = "2.0.1"
     ext.supportVersion = "1.0.0"
-    ext.supportAppcompatVersion = "1.1.0-rc01"
+    ext.supportAppcompatVersion = "1.1.0"
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         // NOTE: Do not place your application dependencies here; they belong

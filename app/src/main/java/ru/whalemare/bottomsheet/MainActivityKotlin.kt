@@ -2,61 +2,56 @@ package ru.whalemare.bottomsheet
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.View
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.whalemare.sheetmenu.ActionItem
 import ru.whalemare.sheetmenu.SheetMenu
 import ru.whalemare.sheetmenu.layout.GridLayoutProvider
 
 open class MainActivityKotlin : AppCompatActivity() {
-    var needTitle = false
+    private var needTitle = false
 
-    var needIcons = true
+    private var needIcons = true
 
-    var needLong = true
+    private var needLong = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textMenu = findViewById<TextView>(R.id.textMenu)
 
-        (findViewById<CheckBox>(R.id.checkbox_title))
-            .setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
+        checkbox_title.setOnCheckedChangeListener { _, isChecked -> needTitle = isChecked }
 
-        (findViewById<CheckBox>(R.id.checkbox_icons))
-            .setOnCheckedChangeListener { _, isChecked ->
-                needIcons = isChecked
-                textMenu.text = when {
-                    needIcons -> "R.layout.menu_icons"
-                    !needIcons -> "R.layout.menu"
-                    else -> "null"
-                }
+        checkbox_icons.setOnCheckedChangeListener { _, isChecked ->
+            needIcons = isChecked
+            textMenu.text = when {
+                isChecked -> "R.layout.menu_icons"
+                !isChecked -> "R.layout.menu"
+                else -> "null"
             }
+        }
 
-        (findViewById<CheckBox>(R.id.checkbox_long))
-            .setOnCheckedChangeListener { _, isChecked -> needLong = isChecked }
+        checkbox_long.setOnCheckedChangeListener { _, isChecked -> needLong = isChecked }
 
-        findViewById<View>(R.id.button_linear).setOnClickListener {
+        button_linear.setOnClickListener {
             setupLinear()
         }
 
-        findViewById<View>(R.id.button_grid).setOnClickListener {
+        button_grid.setOnClickListener {
             setupGrid()
         }
 
-        findViewById<View>(R.id.button_menu).setOnClickListener {
+        button_menu.setOnClickListener {
             setupMenuRes()
         }
     }
 
-    fun setupLinear() {
+    private fun setupLinear() {
         SheetMenu(getSheetTitle(), getSheetItems()).show(this)
     }
 
-    fun setupGrid() {
+    private fun setupGrid() {
         SheetMenu(
             title = getSheetTitle(),
             actions = getSheetItems(),
@@ -65,11 +60,11 @@ open class MainActivityKotlin : AppCompatActivity() {
         ).show(this)
     }
 
-    fun toast(text: CharSequence) {
+    private fun toast(text: CharSequence) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun setupMenuRes() {
+    private fun setupMenuRes() {
         SheetMenu(
             context = this,
             title = getSheetTitle(),
@@ -77,13 +72,13 @@ open class MainActivityKotlin : AppCompatActivity() {
         ).show(this)
     }
 
-    fun setupJustTitles() {
+    private fun setupJustTitles() {
         SheetMenu("Post", listOf("Send mail", "Send telegram", "Receive parcel")).show(this)
     }
 
-    fun getSheetTitle() = if (needTitle) "Title" else null
+    private fun getSheetTitle() = if (needTitle) "Title" else null
 
-    fun getSheetItems(): List<ActionItem>  {
+    private fun getSheetItems(): List<ActionItem> {
         val size = if (needLong) 20 else 5
         return (0..size).map { index ->
             val image = if (needIcons) getRandomIcon() else null
@@ -91,9 +86,8 @@ open class MainActivityKotlin : AppCompatActivity() {
         }
     }
 
-    fun getRandomIcon(): Drawable {
+    private fun getRandomIcon(): Drawable? {
         val icons = listOf(R.drawable.ic_atom, R.drawable.ic_disco)
-        return resources.getDrawable(icons.random())
+        return ContextCompat.getDrawable(this, icons.random())
     }
-
 }

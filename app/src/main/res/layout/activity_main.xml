@@ -1,163 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4f4f4f"
+    android:orientation="vertical"
     tools:context="ru.whalemare.bottomsheet.MainActivityKotlin">
 
     <LinearLayout
-      app:layout_constraintTop_toTopOf="parent"
-      android:id="@+id/linearLayout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:gravity="center"
-      android:layout_marginLeft="8dp"
-      android:orientation="vertical"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toStartOf="parent"
-      tools:layout_editor_absoluteY="0dp">
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatCheckBox
-          android:id="@+id/checkbox_title"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="128dp"
-          android:layout_marginRight="8dp"
-          android:text="@string/text_with_title"
-          android:textColor="#fff"
-          app:buttonTint="#fff"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/checkbox_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/text_with_title"
+            android:textColor="#fff"
+            app:buttonTint="#fff" />
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
-          android:id="@+id/checkbox_icons"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginBottom="8dp"
-          android:checked="true"
-          android:text="@string/text_with_icons"
-          android:textColor="#fff"
-          app:buttonTint="#fff"
-          app:layout_constraintBottom_toTopOf="@+id/button_grid"
-          app:layout_constraintHorizontal_bias="0.501"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/checkbox_title"
-          app:layout_constraintVertical_bias="0.125" />
+            android:id="@+id/checkbox_icons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"
+            android:text="@string/text_with_icons"
+            android:textColor="#fff"
+            app:buttonTint="#fff" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
-          android:id="@+id/checkbox_long"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginBottom="8dp"
-          android:checked="false"
-          android:text="Long list items"
-          android:textColor="#fff"
-          app:buttonTint="#fff"
-          app:layout_constraintBottom_toTopOf="@+id/button_grid"
-          app:layout_constraintHorizontal_bias="0.501"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/checkbox_title"
-          app:layout_constraintVertical_bias="0.125" />
+            android:id="@+id/checkbox_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:checked="false"
+            android:text="Long list items"
+            android:textColor="#fff"
+            app:buttonTint="#fff"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
-
-    <TextView
-      android:id="@+id/textMenu"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="8dp"
-      android:layout_marginRight="8dp"
-      android:textColor="#fff"
-      android:layout_marginBottom="8dp"
-      android:text="R.menu.menu_icons"
-      app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-      app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
 
     <LinearLayout
-      android:id="@+id/linearLayout2"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="8dp"
-      android:orientation="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <Button
-          android:id="@+id/button_linear"
-          android:layout_width="120dp"
-          android:layout_height="60dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginEnd="8dp"
-          android:layout_marginRight="8dp"
-          android:backgroundTint="#fff"
-          android:text="@string/text_linear"
-          app:layout_constraintBaseline_toBaselineOf="@+id/button_grid"
-          app:layout_constraintHorizontal_bias="0.229"
-          app:layout_constraintLeft_toLeftOf="parent"
-          app:layout_constraintRight_toRightOf="parent" />
+            android:id="@+id/button_linear"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="#fff"
+            android:text="@string/text_linear"
+            tools:ignore="ButtonStyle" />
 
         <Button
-          android:id="@+id/button_grid"
-          android:layout_width="120dp"
-          android:layout_height="60dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginBottom="8dp"
-          android:backgroundTint="#fff"
-          android:text="@string/text_grid"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintHorizontal_bias="0.203"
-          app:layout_constraintLeft_toRightOf="@+id/button_linear"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/checkbox_title"
-          app:layout_constraintVertical_bias="0.32" />
-
-        <Button
-          android:id="@+id/button_menu"
-          android:layout_width="120dp"
-          android:layout_height="60dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginBottom="8dp"
-          android:backgroundTint="#fff"
-          android:text="MENU RES"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintHorizontal_bias="0.203"
-          app:layout_constraintLeft_toRightOf="@+id/button_linear"
-          app:layout_constraintRight_toRightOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/checkbox_title"
-          app:layout_constraintVertical_bias="0.32" />
+            android:id="@+id/button_grid"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#fff"
+            android:text="@string/text_grid"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
-    <!--<LinearLayout-->
-      <!--android:layout_width="match_parent"-->
-      <!--android:layout_height="wrap_content">-->
-        <!--<Button-->
-          <!--android:id="@+id/buttonOneLine"-->
-          <!--android:layout_width="120dp"-->
-          <!--android:layout_height="60dp"-->
-          <!--android:layout_marginLeft="8dp"-->
-          <!--android:layout_marginRight="8dp"-->
-          <!--android:layout_marginBottom="8dp"-->
-          <!--android:backgroundTint="#fff"-->
-          <!--android:text="One line" />-->
-    <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button_menu"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#fff"
+            android:text="MENU RES"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="R.menu.menu_icons"
+            android:textColor="#fff"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

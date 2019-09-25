@@ -19,9 +19,6 @@ class LinearLayoutProvider(
         return LinearLayoutManager(context, orientation, reverseLayout)
     }
 
-    override fun provideItemLayoutRes(): Int {
-        return R.layout.item_linear
-    }
-
-
+    override fun provideItemLayoutRes(): Int =
+        R.layout.item_linear
 }
