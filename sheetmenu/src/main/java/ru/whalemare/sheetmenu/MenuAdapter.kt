@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
@@ -32,6 +33,12 @@ open class MenuAdapter(
         holder.imageIcon.isVisible = showIcons && item.image != null
         holder.imageIcon.setImageDrawable(item.image)
         holder.textTitle.text = item.title
+        if(item.titleColor !=null){
+            holder.textTitle.setTextColor(ContextCompat.getColor(holder.textTitle.context,item.titleColor))
+        }
+        if(item.titleRightIcon !=null){
+            holder.textTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, item.titleRightIcon, 0);
+        }
         holder.itemView.setOnClickListener {
             onClick?.invoke(item)
         }

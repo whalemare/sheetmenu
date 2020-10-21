@@ -87,7 +87,7 @@ open class MainActivityKotlin : AppCompatActivity() {
         val size = if (needLong) 20 else 5
         return (0..size).map { index ->
             val image = if (needIcons) getRandomIcon() else null
-            return@map ActionItem(index, "Title $index", image)
+            return@map ActionItem(index, "Title $index", image,R.color.colorAccent,R.drawable.ic_atom)
         }
     }
 
