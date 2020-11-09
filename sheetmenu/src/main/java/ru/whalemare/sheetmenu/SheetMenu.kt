@@ -1,18 +1,28 @@
 package ru.whalemare.sheetmenu
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.os.Build
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.MenuRes
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
+
 
 /**
  * Developed with ❤
@@ -24,12 +34,13 @@ import ru.whalemare.sheetmenu.layout.LinearLayoutProvider
  * @param click listener for menu items
  */
 open class SheetMenu(
-    private val title: String? = null,
-    private val actions: List<ActionItem> = emptyList(),
-    private val onClick: ((ActionItem) -> Unit)? = null,
-    private val onCancel: (() -> Unit)? = null,
-    private val layoutProvider: LayoutProvider = LinearLayoutProvider(),
-    private val showIcons: Boolean = true
+        private val title: String? = null,
+        private val actions: List<ActionItem> = emptyList(),
+        private val onClick: ((ActionItem) -> Unit)? = null,
+        private val onCancel: (() -> Unit)? = null,
+        private val layoutProvider: LayoutProvider = LinearLayoutProvider(),
+        private val showIcons: Boolean = true,
+        private val showDimOnNavBar: Boolean = false
 ) {
     var dialog: BottomSheetDialog? = null
     private var dialogLifecycleObserver: DialogLifecycleObserver? = null
@@ -95,6 +106,9 @@ open class SheetMenu(
             behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             behavior.peekHeight = -1
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 && !showDimOnNavBar) {
+            setWhiteNavigationBar(dialog)
+        }
         dialog.show()
         return dialog
     }
@@ -107,5 +121,22 @@ open class SheetMenu(
             lifecycle.addObserver(it)
         }
         return dialogLifecycleObserver!!
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private fun setWhiteNavigationBar(dialog: Dialog) {
+        dialog.window?.let { window->
+            val metrics = DisplayMetrics()
+            window.windowManager.defaultDisplay.getMetrics(metrics)
+            val dimDrawable = GradientDrawable()
+            // ...customize your dim effect here
+            val navigationBarDrawable = GradientDrawable()
+            navigationBarDrawable.shape = GradientDrawable.RECTANGLE
+            navigationBarDrawable.setColor(Color.WHITE)
+            val layers = arrayOf<Drawable>(dimDrawable, navigationBarDrawable)
+            val windowBackground = LayerDrawable(layers)
+            windowBackground.setLayerInsetTop(1, metrics.heightPixels)
+            window.setBackgroundDrawable(windowBackground)
+        }
     }
 }
