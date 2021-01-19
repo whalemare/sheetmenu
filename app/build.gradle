@@ -31,7 +31,7 @@ dependencies {
     implementation project(path: ':sheetmenu')
 
     implementation "androidx.appcompat:appcompat:$supportAppcompatVersion"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "androidx.recyclerview:recyclerview:$supportVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

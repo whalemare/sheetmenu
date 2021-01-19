@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sheetmenu.iml" filepath="$PROJECT_DIR$/sheetmenu.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/sheetmenu.iml" filepath="$PROJECT_DIR$/.idea/sheetmenu.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sheetmenu/sheetmenu-sheetmenu.iml" filepath="$PROJECT_DIR$/sheetmenu/sheetmenu-sheetmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sheetmenu.iml" filepath="$PROJECT_DIR$/.idea/modules/sheetmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/sheetmenu.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/sheetmenu.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sheetmenu/sheetmenu.sheetmenu.iml" filepath="$PROJECT_DIR$/.idea/modules/sheetmenu/sheetmenu.sheetmenu.iml" />
     </modules>
   </component>
 </project>
