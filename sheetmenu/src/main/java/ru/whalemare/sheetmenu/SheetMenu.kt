@@ -90,7 +90,7 @@ open class SheetMenu(
         }, layoutProvider.provideItemLayoutRes(), showIcons)
 
         root.viewTreeObserver.addOnGlobalLayoutListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet = dialog.findViewById<FrameLayout>(R.id.design_bottom_sheet)!!
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             behavior.peekHeight = -1
