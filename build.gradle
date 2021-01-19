@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.3.50'
     ext.app_version = "2.0.0"
-    ext.supportVersion = "1.0.0"
+    ext.supportVersion = "1.1.0"
     ext.supportAppcompatVersion = "1.1.0-rc01"
     repositories {
         jcenter()
