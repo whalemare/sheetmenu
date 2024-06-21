@@ -11,7 +11,7 @@
     android:paddingStart="16dp"
     android:paddingTop="8dp">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -20,10 +20,10 @@
         android:layout_marginRight="32dp"
         tools:background="@color/gray_material"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_title"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="16sp"

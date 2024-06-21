@@ -9,5 +9,7 @@ import android.graphics.drawable.Drawable
 data class ActionItem(
     val id: Int,
     val title: CharSequence,
-    val image: Drawable? = null
+    val image: Drawable? = null,
+    val titleColor:Int? = null,
+    val titleRightIcon:Int? = null
 )
